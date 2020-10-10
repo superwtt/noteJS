@@ -28,6 +28,10 @@ module.exports = {
             title: "生命周期",
             path: "/react/生命周期.html",
           },
+          {
+            title: "ReactHooks",
+            path: "/react/ReactHooks.html",
+          },
         ],
       },
     ],
