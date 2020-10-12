@@ -29,8 +29,17 @@ module.exports = {
             path: "/react/生命周期.html",
           },
           {
-            title: "ReactHooks",
-            path: "/react/ReactHooks.html",
+            title: "React Hooks",
+            children: [
+              {
+                title: "Hooks简介",
+                path: "/react/Hooks/Hooks简介.html",
+              },
+              {
+                title: "ReactHooks",
+                path: "/react/Hooks/ReactHooks.html",
+              },
+            ],
           },
         ],
       },
