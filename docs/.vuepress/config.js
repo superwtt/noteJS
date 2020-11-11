@@ -41,6 +41,10 @@ module.exports = {
               },
             ],
           },
+          {
+            title: "state异步",
+            path: "/react/state异步.html",
+          },
         ],
       },
     ],
