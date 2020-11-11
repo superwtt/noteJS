@@ -47,6 +47,16 @@ module.exports = {
           },
         ],
       },
+      {
+        title:"General",
+        collapsable: false,
+        children:[
+          {
+            title:"前端如何更好的实现接口的缓存与更新",
+            path:"/general/前端如何更好的实现接口的缓存与更新.html"
+          }
+        ]
+      }
     ],
   },
   plugins: {
