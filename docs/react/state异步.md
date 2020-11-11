@@ -22,16 +22,19 @@ state的更新需要用到setState
 
 #### 源码解析
 
-
 ---
 
 #### state与props
 
+区别：
+1. props用于定义外部接口，state用于记录内部状态
+2. props的赋值在于外部使用组件，state的赋值在于组件内部
+3. 组件不应该修改props的值，而state就是用来让组件修改的
+
 ---
 
 #### 参考链接
-[知乎-good](https://www.zhihu.com/question/66749082/answer/246217812)
-[知乎](https://zhuanlan.zhihu.com/p/28905707)
+[知乎-good](https://zhuanlan.zhihu.com/p/28905707)
 
 
 
