@@ -24,6 +24,27 @@ state的更新需要用到setState
 
 ---
 
+#### 如何获取到最新的state
+1. 回调
+```javascript
+this.setState({count:this.state.count+1},()=>{
+    console.log(this.state.count)
+})
+```
+回调里的state是最新的，原因是该回调的执行时机在于state合并处理之后
+
+2. prevState
+```javascript
+this.setState(prevState=>{count:prevState.count+1})
+```
+
+---
+
+#### setState不是真正的异步
+那么以上4种方式调用setState()，后面紧接着去取最新的state，按之前讲的异步原理，应该是取不到的。然而，setTimeout中调用以及原生事件中调用的话，是可以立马获取到最新的state的。根本原因在于，setState并不是真正意义上的异步操作，它只是模拟了异步的行为。React中会去维护一个标识（isBatchingUpdates），判断是直接更新还是先暂存state进队列。setTimeout以及原生事件都会直接去更新state，因此可以立即得到最新state。而合成事件和React生命周期函数中，是受React控制的，其会将isBatchingUpdates设置为 true，从而走的是类似异步的那一套。
+
+---
+
 #### state与props
 
 区别：
