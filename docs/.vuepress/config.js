@@ -13,7 +13,12 @@ module.exports = {
   ],
   themeConfig: {
     logo: "/assets/img/logo.jpg",
-    nav: [{ text: "Github", link: "https://github.com/superwtt" }],
+    nav: [
+      {
+        text: "Github",
+        link: "https://github.com/superwtt",
+      },
+    ],
     sidebar: [
       {
         title: "Introduction",
@@ -36,8 +41,16 @@ module.exports = {
                 path: "/react/Hooks/Hooks简介.html",
               },
               {
-                title: "ReactHooks",
-                path: "/react/Hooks/ReactHooks.html",
+                title: "useState",
+                path: "/react/Hooks/useState.html",
+              },
+              {
+                title: "useEffect",
+                path: "/react/Hooks/useEffect.html",
+              },
+              {
+                title: "useCallback",
+                path: "/react/Hooks/useCallback.html",
               },
             ],
           },
@@ -48,15 +61,15 @@ module.exports = {
         ],
       },
       {
-        title:"General",
+        title: "General",
         collapsable: false,
-        children:[
+        children: [
           {
-            title:"前端如何更好的实现接口的缓存与更新",
-            path:"/general/前端如何更好的实现接口的缓存与更新.html"
-          }
-        ]
-      }
+            title: "前端如何更好的实现接口的缓存与更新",
+            path: "/general/前端如何更好的实现接口的缓存与更新.html",
+          },
+        ],
+      },
     ],
   },
   plugins: {
