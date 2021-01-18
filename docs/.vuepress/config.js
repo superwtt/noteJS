@@ -29,6 +29,10 @@ module.exports = {
             path: "/react/生命周期.html",
           },
           {
+            title: "state异步",
+            path: "/react/state异步.html",
+          },
+          {
             title: "React Hooks",
             children: [
               {
@@ -36,14 +40,14 @@ module.exports = {
                 path: "/react/Hooks/Hooks简介.html",
               },
               {
-                title: "ReactHooks",
-                path: "/react/Hooks/ReactHooks.html",
+                title: "useState",
+                path: "/react/Hooks/useState.html",
+              },
+              {
+                title: "useEffect",
+                path: "/react/Hooks/useEffect.html",
               },
             ],
-          },
-          {
-            title: "state异步",
-            path: "/react/state异步.html",
           },
         ],
       },
