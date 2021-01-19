@@ -25,6 +25,10 @@ module.exports = {
         collapsable: false,
         children: [
           {
+            title:"Virtual DOM",
+            path: "/react/虚拟dom.html",
+          },
+          {
             title: "生命周期",
             path: "/react/生命周期.html",
           },
@@ -48,7 +52,7 @@ module.exports = {
                 path: "/react/Hooks/useEffect.html",
               },
             ],
-          },
+          }
         ],
       },
       {
