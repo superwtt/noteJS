@@ -25,10 +25,6 @@ module.exports = {
         collapsable: false,
         children: [
           {
-            title:"Virtual DOM",
-            path: "/react/虚拟dom.html",
-          },
-          {
             title: "生命周期",
             path: "/react/生命周期.html",
           },
@@ -37,7 +33,16 @@ module.exports = {
             path: "/react/state异步.html",
           },
           {
-            title: "React Hooks",
+            title: "react",
+            children: [
+              {
+                title: "react1-10",
+                path: "/react/react/react1-10.html",
+              },
+            ],
+          },
+          {
+            title: "Hooks",
             children: [
               {
                 title: "Hooks简介",
@@ -50,6 +55,15 @@ module.exports = {
               {
                 title: "useEffect",
                 path: "/react/Hooks/useEffect.html",
+              },
+            ],
+          },
+          {
+            title: "Redux",
+            children: [
+              {
+                title: "redux1-10",
+                path: "/react/redux/redux1-10.html",
               },
             ],
           }
