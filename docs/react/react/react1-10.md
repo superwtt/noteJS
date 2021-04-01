@@ -33,3 +33,7 @@ for(let i=0;i<numbers.length;i++){
 ---
 
 #### React和Vue有什么优缺点
+
+---
+
+#### 什么是Virtual DOM及其工作原理
