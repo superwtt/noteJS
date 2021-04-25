@@ -22,63 +22,63 @@ module.exports = {
       },
       {
         title: "React",
-        collapsable: false,
+        collapsable: true,
         children: [
           {
-            title: "生命周期",
-            path: "/react/生命周期.html",
-          },
-          {
-            title: "state异步",
-            path: "/react/state异步.html",
-          },
-          {
-            title: "react",
+            title: "概念篇",
             children: [
               {
-                title: "react1-10",
-                path: "/react/react/react1-10.html",
+                title: "react",
+                children: [
+                  {
+                    title: "react1-10",
+                    path: "/react/react/react1-10.html",
+                  },
+                ],
+              },
+              {
+                title: "Hooks",
+                children: [
+                  {
+                    title: "Hooks简介",
+                    path: "/react/Hooks/Hooks简介.html",
+                  },
+                  {
+                    title: "useState",
+                    path: "/react/Hooks/useState.html",
+                  },
+                  {
+                    title: "useEffect",
+                    path: "/react/Hooks/useEffect.html",
+                  },
+                ],
+              },
+              {
+                title: "Redux",
+                children: [
+                  {
+                    title: "redux1-10",
+                    path: "/react/redux/redux1-10.html",
+                  },
+                ],
               },
             ],
           },
           {
-            title: "Hooks",
-            children: [
-              {
-                title: "Hooks简介",
-                path: "/react/Hooks/Hooks简介.html",
-              },
-              {
-                title: "useState",
-                path: "/react/Hooks/useState.html",
-              },
-              {
-                title: "useEffect",
-                path: "/react/Hooks/useEffect.html",
-              },
-            ],
-          },
-          {
-            title: "Redux",
-            children: [
-              {
-                title: "redux1-10",
-                path: "/react/redux/redux1-10.html",
-              },
-            ],
+            title:"原理篇"
           }
         ],
       },
       {
-        title:"General",
+        title: "General",
         collapsable: false,
-        children:[
+        children: [
           {
-            title:"前端如何更好的实现接口的缓存与更新",
-            path:"/general/前端如何更好的实现接口的缓存与更新.html"
-          }
-        ]
-      }
+            title: "前端如何更好的实现接口的缓存与更新",
+            path: "/general/前端如何更好的实现接口的缓存与更新.html",
+          },
+        ],
+      },
     ],
   },
   plugins: {
