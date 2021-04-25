@@ -32,6 +32,26 @@ for(let i=0;i<numbers.length;i++){
 
 ---
 
+#### 构建React项目的几种方式
+
+1. 浏览器通过标签直接引入
+```javascript
+// 引入react
+<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+
+// 引入react-dom
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.deelopment.js" crossorigin></script>
+
+// 引入Babel,使浏览器可以识别JSX语法，如果不使用JSX语法，可以不引入
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+```
+
+2. 使用官方脚手架<code>create-react-app</code>
+3. 使用<code>webpack</code>、<code>babel</code>、<code>react</code>自己动手搭建
+
+
+---
+
 #### React和Vue有什么优缺点
 
 ---

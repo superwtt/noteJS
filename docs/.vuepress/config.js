@@ -22,10 +22,11 @@ module.exports = {
       },
       {
         title: "React",
-        collapsable: true,
+        collapsable: false,
         children: [
           {
             title: "概念篇",
+            collapsable: true,
             children: [
               {
                 title: "react",
