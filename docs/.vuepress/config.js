@@ -66,7 +66,42 @@ module.exports = {
             ],
           },
           {
-            title:"原理篇"
+            title:"原理篇",
+            collapsable: true,
+            children:[
+              {
+                title: "Virtual Dom",
+                path: "",
+              },
+              {
+                title: "渲染原理",
+                path: "",
+              },
+              {
+                title: "Diff算法",
+                path: "",
+              },
+              {
+                title: "setState",
+                path: "",
+              },
+              {
+                title: "useState",
+                path: "",
+              },
+              {
+                title: "生命周期执行原理",
+                path: "",
+              },
+              {
+                title: "路由",
+                path: "",
+              },
+              {
+                title: "Redux原理",
+                path: "",
+              }
+            ]
           }
         ],
       },

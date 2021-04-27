@@ -49,6 +49,10 @@ for(let i=0;i<numbers.length;i++){
 2. 使用官方脚手架<code>create-react-app</code>
 3. 使用<code>webpack</code>、<code>babel</code>、<code>react</code>自己动手搭建
 
+---
+
+
+
 
 ---
 
