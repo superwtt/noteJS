@@ -33,7 +33,7 @@ module.exports = {
                 children: [
                   {
                     title: "react1-10",
-                    path: "/react/react/react1-10.html",
+                    path: "/react/概念/react/react1-10.html",
                   },
                 ],
               },
@@ -42,15 +42,15 @@ module.exports = {
                 children: [
                   {
                     title: "Hooks简介",
-                    path: "/react/Hooks/Hooks简介.html",
+                    path: "/react/概念/Hooks/Hooks简介.html",
                   },
                   {
                     title: "useState",
-                    path: "/react/Hooks/useState.html",
+                    path: "/react/概念/Hooks/useState.html",
                   },
                   {
                     title: "useEffect",
-                    path: "/react/Hooks/useEffect.html",
+                    path: "/react/概念/Hooks/useEffect.html",
                   },
                 ],
               },
@@ -59,7 +59,7 @@ module.exports = {
                 children: [
                   {
                     title: "redux1-10",
-                    path: "/react/redux/redux1-10.html",
+                    path: "/react/概念/redux/redux1-10.html",
                   },
                 ],
               },
@@ -69,6 +69,14 @@ module.exports = {
             title:"原理篇",
             collapsable: true,
             children:[
+              {
+                title: "ReactElement",
+                path: "/react/原理/ReactElement/ReactElement.html",
+              },
+              {
+                title: "Ref",
+                path: "/react/原理/Ref/ref.html",
+              },
               {
                 title: "Virtual Dom",
                 path: "",
