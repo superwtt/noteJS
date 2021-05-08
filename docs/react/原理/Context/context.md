@@ -175,6 +175,7 @@ function createContext(){
 }
 ```
 #### 解析
-1. Consumer是订阅者，将事件添加到监听队列里，一旦value有变化，便setState，re-render自然会执行
-2. Provider是发布者，一旦接收到数据变化，遍历事件队列，依次执行
+1. Provider是发布者，负责提供子组件能够访问的数据，一旦接收到数据变化，在componentDidMount和componentDidUpdate里面遍历事件队列，依次执行
+2. Consumer是订阅者，获取从父组件传递过来的数据，将事件添加到监听队列里，监听value的变化，一旦value发生变化，便setState，re-render自然会执行
+3. 只要Provider的value有变化，就一定会触发Consumer的state变化
 
