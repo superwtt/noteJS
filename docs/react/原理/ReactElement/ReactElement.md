@@ -82,8 +82,8 @@ export function createElement(type, config, children) {
 #### 解析
 1. JSX代码经过编译之后，会调用<code>React.createElement</code>方法。<code>React.createElement</code>方法用来返回<code>React Element</code>元素
 
-2. <code>createElement</code>接收三个参数：<code>type</code>、<code>config</code>、<code>children</code>。
-    + 其中，type类型有：
+2. <code>createElement</code>接收三个参数：<code>type</code>、<code>config</code>、<code>children</code>。其中，
+    + type类型有：
 
       + 字符串的<code>div</code>或者<code>span</code>等原生的DOM，称为<code>HostComponent</code>
 
