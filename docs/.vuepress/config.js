@@ -82,6 +82,10 @@ module.exports = {
                 path: "/react/原理/Context/context.html",
               },
               {
+                title: "State",
+                path: "/react/原理/State/state.html",
+              },
+              {
                 title: "渲染原理",
                 path: "",
               },

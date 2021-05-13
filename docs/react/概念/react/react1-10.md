@@ -51,7 +51,7 @@ for(let i=0;i<numbers.length;i++){
 
 ---
 
-
+### this.setState是同步还是异步的
 
 
 ---
