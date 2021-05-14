@@ -5,7 +5,7 @@
 
 ### 答案
 
-1. 在legacy模式中，命中了`batchedUpdates`时是异步，未命中`batchedUpdates`时是同步
+1. 在legacy模式中，命中了`batchedUpdates`时是异步，未命中`batchedUpdates`时是同步，(可以理解为默认都是异步的，因为我们一般不会去改变它，React控制之外的事件中是同步的)
 2. concurrent模式中，都是异步的
 
 ---
@@ -27,5 +27,103 @@ blocking模式作为concurrent模式的降级版本。
 
 ### legacy模式-目前大多数React应用的模式下 setState的表现
 ```javascript
+class LegacySetState extends React.Component{
+   constructor(){
+      super(props)
+      this.state = {
+         num:1 
+      } 
+   } 
+   updateNum = () => {
+      
+      // 方式1-------------------
+      console.log("before setState ",num) 
+      this.setState({num: this.state.num+1}) 
+      console.log("after setState ",num) 
+
+     // 方式2-------------------
+     // setTimeout(()=>{
+        // this.setState({num: this.state.num+1}) 
+        // console.log("after setState ",num) 
+     // },0)
+   }
+   render(){
+     const { num } = this.state;
+     console.log("Class render ",num)  
+     return <p onClick={this.updateNum}>click me {num}</p>  
+   }
+}
+```
+
+#### 结果
+方式一：
+
+![](https://raw.githubusercontent.com/superwtt/MyFileRepository/main/image/React/1-1.png)
+
+方式二：
+
+![](https://raw.githubusercontent.com/superwtt/MyFileRepository/main/image/React/1-2.png)
+
+#### 分析
+1. 方式一的打印结果我们发现，setState是异步更新的
+2. 方式二的打印结果我们发现，setState是同步更新的
+
+
+#### 源码
+源码目录：<code>https://github.com/facebook/react/blob/17.0.1/packages/react-reconciler/src/ReactFiberWorkLoop.new.js</code>
+
+1. 方式一中，legacy模式下，setState的异步更新，是基于React源码中的性能优化特性：`batchedUpdates`，即多个setState会被合并成一个更新，这样就能提高React的性能。
+
+```javascript
+export function batchedUpdates<A, R>(fn: A => R, a: A): R {
+  const prevExecutionContext = executionContext;
+  executionContext |= BatchedContext;  // 将全局变量executionContext加上批量更新的flag
+  try {
+    return fn(a);
+  } finally {
+    executionContext = prevExecutionContext;
+    if (executionContext === NoContext) {
+      // Flush the immediate callbacks that were scheduled during this batch
+      resetRenderTimer();
+      flushSyncCallbackQueue();
+    }
+  }
+}
+```
+
+##### 解析
+1. 首先`batchedUpdates`方法，会将一个全局变量`executionContext`打上`BatchedContext`批处理标签
+2. 执行fn，fn指的就是这边的`updateNum`方法，执行完之后，将`BatchedContext`从`executionContext`中去除
+3. 当我们执行`updateNum`这个方法时，包含了一个被打了批量更新标签的全局变量`executionContext`，React内部会判断，如果这次更新中，`executionContext`包含了`BatchedContext`，它就会认为这是一次批处理
+4. 批处理中触发的多次更新都会被合并成一个更新，并且异步执行
+
+---
+
+##### 如何跳出batchedUpdates呢
+1. 如果我们触发的fn中`this.setState`这一步是异步执行的，那么等`this.setState`执行的时候，我们全局的`executionContext`已经不存在`BatchedContext`了。因为`batchedUpdates`在执行完fn之后会重置`executionContext`
+2. 所以我们只要将`this.setState`放到`setTimeout`中，将`this.setState`这个操作变成异步执行，此时全局的变量中已经不存在`BatchedContext`这个flag
+3. 当不存在这个flag时，React源码中，有一个函数`scheduleUpdateOnFiber`，每次调度更新都会执行这个函数
+  + 源码目录：<code>https://github.com/facebook/react/blob/17.0.1/packages/react-reconciler/src/ReactFiberWorkLoop.old.js</code>
+4. 当上下文什么都没有的情况下，我们会同步的执行这次更新。当我们用`setTimeout`触发`this.setState`，就会进入`executionContext === NoContext`触发同步的更新
+  + 我们用`ReactDOM.render`创建出来的应用叫做同步的优先级,要进入`if (executionContext === NoContext)`的前提是`if (lane === SyncLane)`，也就是说当前更新的优先级是同步的优先级
+  + 而用concurrent模式下的优先级是异步的优先级，即使`this.setState`被异步包裹了，状态的更新也是异步的
+5. 总结：这道题目对于不同模式下的应用答案是不一样的  
+
+```javascript
+export function scheduleUpdateOnFiber(){
+    //...
+    if (lane === SyncLane) {
+         // ....
+         if (executionContext === NoContext) {
+        // Flush the synchronous work now, unless we're already working or inside
+        // a batch. This is intentionally inside scheduleUpdateOnFiber instead of
+        // scheduleCallbackForFiber to preserve the ability to schedule a callback
+        // without immediately flushing it. We only do this for user-initiated
+        // updates, to preserve historical behavior of legacy mode.
+      resetRenderTimer();
+      flushSyncCallbackQueue();
+    }
+   }
+}
 
 ```
