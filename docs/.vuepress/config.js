@@ -82,8 +82,12 @@ module.exports = {
                 path: "/react/原理/Context/context.html",
               },
               {
-                title: "State",
+                title: "SetState",
                 path: "/react/原理/State/state.html",
+              },
+              {
+                title: "Hooks原理",
+                path: "/react/原理/Hooks/hooks.html",
               },
               {
                 title: "渲染原理",
@@ -91,10 +95,6 @@ module.exports = {
               },
               {
                 title: "Diff算法",
-                path: "",
-              },
-              {
-                title: "setState",
                 path: "",
               },
               {
