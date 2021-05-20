@@ -94,6 +94,10 @@ module.exports = {
                 path: "/react/原理/Children/children.html",
               },
               {
+                title: "ReactDomRender",
+                path: "/react/原理/ReactDomRender/reactdomrender.html",
+              },
+              {
                 title: "渲染原理",
                 path: "",
               },
