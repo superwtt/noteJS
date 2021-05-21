@@ -103,6 +103,14 @@ module.exports = {
                 path: "",
               },
               {
+                title: "生命周期执行原理",
+                path: "",
+              },
+              {
+                title: "Hooks原理",
+                path: "/react/原理/Hooks/hooks.html",
+              },
+              {
                 title: "Ref",
                 path: "/react/原理/Ref/ref.html",
               },
@@ -115,19 +123,11 @@ module.exports = {
                 path: "/react/原理/State/state.html",
               },
               {
-                title: "Hooks原理",
-                path: "/react/原理/Hooks/hooks.html",
-              },
-              {
                 title: "Diff算法",
                 path: "",
               },
               {
                 title: "useState",
-                path: "",
-              },
-              {
-                title: "生命周期执行原理",
                 path: "",
               },
               {
