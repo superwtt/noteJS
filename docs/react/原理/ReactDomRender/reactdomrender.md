@@ -48,7 +48,7 @@ const ReactDOM: Object = {
 }
 ```
 
-② legacyRenderSubtreeIntoContainer 顾名思义，legacy模式下render子树到container容器里，用来初始化container。
+② `legacyRenderSubtreeIntoContainer` 顾名思义，legacy模式下render子树到container容器里，用来初始化container。
 
 container是dom实例，第一次渲染肯定没有`_reactRootContainer`，所以`root=container._reactRootContainer`被赋值给了`legacyCreateRootFromDOMContainer(container, )`
 
@@ -202,6 +202,9 @@ root = ({
 
 每个fiber数据结构的属性都是代表什么意思，可以看[这里](https://github.com/y805939188/simple-react/tree/master/procedure/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/fiber2)
 
+一个`ReactElement`就是一个`fiber`对象
+
+
 ```javascript
 export function createHostRootFiber(isConcurrent: boolean): Fiber {
   let mode = isConcurrent ? ConcurrentMode | StrictMode : NoContext;
@@ -279,7 +282,7 @@ function FiberNode(
 }
 ```
 
-2. `FiberRoot`就是一个对象：
+2. `FiberRoot`就是一个对象，是整个应用的起点，包含应用挂载的目标节点，记录整个应用更新的信息
 
 ```javascript
 {
@@ -308,7 +311,9 @@ function FiberNode(
 
  + 而`FiberRoot` 的current属性又指向了`RootFiber`，之后`RootFiber`的`stateNode`属性又指回了`FiberRoot`
 
-5. 为什么这么设计，涉及到React底层和Fiber调度算法的设计。React内部有两个阶段，一个是`render`阶段，用来生成fiber树，一个是`commit`阶段，用来操作真正的dom以及执行生命周期
+5. 为什么这么设计，涉及到React底层和Fiber调度算法的设计。
+
+React内部有两个阶段，一个是`render`阶段，用来生成fiber树，一个是`commit`阶段，用来操作真正的dom以及执行生命周期
 
 
 ---

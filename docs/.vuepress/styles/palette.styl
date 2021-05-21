@@ -21,12 +21,20 @@ body{
 .theme-default-content:not(.custom) > h6{
  margin-top:-40px;
 }
-// .theme-default-content:not(.custom) img{
-//   width:250px;
+
+div[class*="language-"] {
+  background-color: #f7f7f7;
+}
+.theme-default-content pre code, .theme-default-content pre[class*="language-"] code{
+    color: #333 !important;
+}
+
+.token.selector, .token.important, .token.atrule, .token.keyword, .token.builtin{
+  color: #6679cc !important;
+}
+// .theme-default-content code{
+//   color: #e96900 !important;
 // }
-// div[class*="language-"] {
-//   background-color: #f9f9ff;
-// }
-// .theme-default-content pre code, .theme-default-content pre[class*="language-"] code{
-//     color: #6679cc !important;
+// .token.boolean, .token.number, .token.function{
+//   color: #8e908c !important;
 // }
