@@ -89,6 +89,10 @@ module.exports = {
                     path: "/react/原理/ReactDomRender/render2.html",
                   },
                   {
+                    title:"渲染流程三",
+                    path: "/react/原理/ReactDomRender/render3.html",
+                  },
+                  {
                     title:"流程图",
                     path: "/react/原理/ReactDomRender/流程图.html",
                   },
