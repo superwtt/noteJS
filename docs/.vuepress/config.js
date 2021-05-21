@@ -103,6 +103,10 @@ module.exports = {
                 path: "",
               },
               {
+                title: "Diff算法",
+                path: "",
+              },
+              {
                 title: "生命周期执行原理",
                 path: "",
               },
@@ -121,10 +125,6 @@ module.exports = {
               {
                 title: "SetState",
                 path: "/react/原理/State/state.html",
-              },
-              {
-                title: "Diff算法",
-                path: "",
               },
               {
                 title: "useState",
