@@ -74,22 +74,6 @@ module.exports = {
                 path: "/react/原理/ReactElement/ReactElement.html",
               },
               {
-                title: "Ref",
-                path: "/react/原理/Ref/ref.html",
-              },
-              {
-                title: "Context",
-                path: "/react/原理/Context/context.html",
-              },
-              {
-                title: "SetState",
-                path: "/react/原理/State/state.html",
-              },
-              {
-                title: "Hooks原理",
-                path: "/react/原理/Hooks/hooks.html",
-              },
-              {
                 title: "Children原理",
                 path: "/react/原理/Children/children.html",
               },
@@ -113,6 +97,22 @@ module.exports = {
               {
                 title: "React更新原理",
                 path: "",
+              },
+              {
+                title: "Ref",
+                path: "/react/原理/Ref/ref.html",
+              },
+              {
+                title: "Context",
+                path: "/react/原理/Context/context.html",
+              },
+              {
+                title: "SetState",
+                path: "/react/原理/State/state.html",
+              },
+              {
+                title: "Hooks原理",
+                path: "/react/原理/Hooks/hooks.html",
               },
               {
                 title: "Diff算法",
