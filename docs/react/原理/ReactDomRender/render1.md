@@ -1,3 +1,8 @@
+### 渲染流程
+React的渲染流程可以概括为：
+`JSX -> createElement函数 -> 这个函数帮我们创建ReactElement对象 -> ReactDOM.render函数 -> 映射到浏览器的真实DOM`
+
+
 ### ReactDOM.render
 1. 作用：用于将模板转换成HTML语言，渲染DOM，并插入到指定的DOM节点中
 2. 用法示例：`ReactDOM.render(<App />, document.getElementById('root'));`
@@ -12,12 +17,12 @@ ReactDOM.render(
 ---
 
 ### 疑问
-1. `ReactDOM.render`方法如何转换成真实的dom
-2. `React.createElement`方法如何实例化react组件
+1. `React.createElement`方法如何实例化react组件
+2. `ReactDOM.render`方法如何转换成真实的dom
 
 ---
 
-### 步骤
+### 流程
 `ReactDOM.render`步骤大致可以分为三步：
 1. 创建`ReactRoot`，这是包含了整个React应用的顶点的对象
 2. 创建`FiberRoot`和`RootFiber`
