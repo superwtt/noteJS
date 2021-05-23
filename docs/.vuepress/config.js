@@ -81,16 +81,20 @@ module.exports = {
                 title: "React渲染原理",
                 children:[
                   {
-                    title:"渲染流程一",
-                    path: "/react/原理/ReactRender/render1.html",
+                    title:"渲染流程一-没有root创建root",
+                    path: "/react/原理/ReactRender/scheduler-render1.html",
                   },
                   {
-                    title:"渲染流程二",
-                    path: "/react/原理/ReactRender/render2.html",
+                    title:"渲染流程二-有root直接创建更新",
+                    path: "/react/原理/ReactRender/scheduler-render2.html",
                   },
                   {
-                    title:"渲染流程三",
-                    path: "/react/原理/ReactRender/render3.html",
+                    title:"渲染流程三-任务调度",
+                    path: "/react/原理/ReactRender/scheduler-调度.html",
+                  },
+                  {
+                    title:"渲染流程四-协调",
+                    path: "/react/原理/ReactRender/协调.html",
                   },
                   {
                     title:"流程图",
