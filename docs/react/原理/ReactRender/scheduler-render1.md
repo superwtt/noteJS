@@ -14,11 +14,23 @@ ReactDOM.render(
 );
 ```
 
+`ReactDOM`在经历一次渲染后，会构建如下的`fiber`树
+![](https://img-blog.csdnimg.cn/20191222212741273.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dscWRidHg=,size_16,color_FFFFFF,t_70)
+
+这棵`fiber`树的每个节点通过child、sibling、return来相互连接，最后构成一个虚拟DOM树。先是fiber树再是dom树
+
 ---
 
 ### 疑问
 1. `React.createElement`方法如何实例化react组件
 2. `ReactDOM.render`方法如何转换成真实的dom
+
+jsx ->
+react.createElement ->
+react element ->
+reactdom.render构建fiber树 ->
+fiber树最后构成dom树 ->
+渲染到页面
 
 ---
 

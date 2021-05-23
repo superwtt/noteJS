@@ -140,7 +140,7 @@ module.exports = {
               },
               {
                 title: "Redux原理",
-                path: "",
+                path: "/react/原理/Redux/redux.html",
               }
             ]
           }
