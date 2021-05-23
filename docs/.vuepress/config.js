@@ -82,19 +82,19 @@ module.exports = {
                 children:[
                   {
                     title:"渲染流程一",
-                    path: "/react/原理/ReactDomRender/render1.html",
+                    path: "/react/原理/ReactRender/render1.html",
                   },
                   {
                     title:"渲染流程二",
-                    path: "/react/原理/ReactDomRender/render2.html",
+                    path: "/react/原理/ReactRender/render2.html",
                   },
                   {
                     title:"渲染流程三",
-                    path: "/react/原理/ReactDomRender/render3.html",
+                    path: "/react/原理/ReactRender/render3.html",
                   },
                   {
                     title:"流程图",
-                    path: "/react/原理/ReactDomRender/流程图.html",
+                    path: "/react/原理/ReactRender/流程图.html",
                   },
                 ]
               },

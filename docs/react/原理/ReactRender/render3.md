@@ -20,6 +20,35 @@
 ---
 
 ### React如何实现调度
+React实现调度主要靠两个内容：
+1. 计算任务的`expriationTime`
+2. 实现`requestIdleCallback`的polyfill版本
+
+#### expirationTime
+1. 如何计算的：
+expirationTime = 当前时间+一个常量（根据任务的优先级改变）
+
+常量指的是根据不同优先级得出的一个数值，React内部目前总共有五种优先级，分别为：
++ `var ImmediatePriority = 1`
++ `var UserBlockingPriority = 2`
++ `var NormalPriority = 3`
++ `var LowPriority = 4`
++ `var IdlePriority = 5`
+
+它们各自对应的数值都是不同的，具体内容如下：
++ `var maxSigned31BitInt = 1073741823`
+
++ `var IMMEDIATE_PRIORITY_TIIMEOUT = -1` // time out immediately
++ `var USER_BLOCKING_PRIORITY_TIMEOUT = -1` 
++ `var NORMAL_PRIORITY_TIMEOUT = 250`
++ `var LOW_PRIORITY_TIMEOUT = 10000`
++ `var IDLE_PRIORITY_TIMEOUT = maxSigned31BitInt`
+
+也就是说，假设当前时间为5000毫秒，并且分别有两个优先级不同的任务要执行。前者属于`ImmediatePriority`，后者属于`userBlockingPriority`，name两个任务计算出来的`expirationTime`分别为4999和5250.通过两者的时间对比大小可以得出谁的优先级高
+
+---
+
+#### requestIdleCallback
 
 
 
