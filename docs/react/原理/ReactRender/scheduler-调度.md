@@ -37,7 +37,6 @@ expirationTime = 当前时间+一个常量（根据任务的优先级改变）
 
 它们各自对应的数值都是不同的，具体内容如下：
 + `var maxSigned31BitInt = 1073741823`
-
 + `var IMMEDIATE_PRIORITY_TIIMEOUT = -1` // time out immediately
 + `var USER_BLOCKING_PRIORITY_TIMEOUT = -1` 
 + `var NORMAL_PRIORITY_TIMEOUT = 250`
@@ -68,7 +67,7 @@ function unImportWork(deadline){
 
 2.缺点：`requestIdleCallback`的FPS只有20，一般FPS为60时，对用户来说是流畅的，这远远低于页面流畅度的要求，所以React需要自己手动实现
 
-3.如何实现：`requestAnimationFrame+计算帧时间以及下一帧时间+MessageChannel`
+3.如何实现：`requestAnimationFrame + 计算帧时间以及下一帧时间 + MessageChannel`
 
 + 如何弥补`requestIdleCallback`的不足，能多次在浏览器空闲时且是渲染后才调用回调方法？说到多次执行，那么肯定得使用定时器了。在多种定时器中，唯有`requestAnimationFrame`具备一定的精确度，因此`requestAnimationFrame`就是当下实现`requestIdleCallback`的一个步骤。`requestAnimationFrame`的回调会在每次重绘之前执行
 
@@ -88,49 +87,3 @@ function unImportWork(deadline){
 + 在回调方法中，我们首先需要计算每一帧的时间以及下一帧的时间，然后执行`post.postMessage(undefined)`
 
 + `channel.port1.onmessage`会在渲染后被调用，在这个过程中，我们首先需要先去判断当前时间是否小于下一帧时间。如果小于的话就代表我们尚有空余时间去执行任务；如果大于的话就代表当前帧已经没有空闲时间了，这个时候我们需要去判断是否有任务过期，过期的话不管三七二十一一定还是得去执行这个任务。如果没有过期的话，只能把这个任务丢到下一帧看看能不能执行了
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-https://yuchengkai.cn/react/2019-06-04.html#%E6%96%87%E7%AB%A0%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99
-
-https://zhuanlan.zhihu.com/p/103506207
-
-
-
