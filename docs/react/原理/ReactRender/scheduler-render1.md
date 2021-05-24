@@ -13,6 +13,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 ```
+4. 从`React Element`到`Fiber nodes`: 当模板经过JSX编译后，我们会得到一堆的React elements，它们是真正从render方法里返回的东西，不是HTML。在`Reconciliation`期间，每个从render方法中返回的`React element`数据都会被合并进fiber节点树，每个`React element`都会被关联到一个fiber node，fiber node是一种包含组件状态和DOM的可变数据结构，不会像React element一样每次渲染都会重新创建
 
 `ReactDOM`在经历一次渲染后，会构建如下的`fiber`树
 ![](https://img-blog.csdnimg.cn/20191222212741273.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dscWRidHg=,size_16,color_FFFFFF,t_70)
@@ -338,3 +339,5 @@ React内部有两个阶段，一个是`render`阶段，用来生成fiber树，�
 [very Good](https://www.zhihu.com/question/361787198)
 
 [Good](https://segmentfault.com/a/1190000020064411)
+
+[react element与fiber节点](https://zhuanlan.zhihu.com/p/59055212)
