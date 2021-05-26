@@ -104,11 +104,11 @@ module.exports = {
               },
               {
                 title: "React更新原理",
-                path: "",
+                path: "/react/原理/ReactUpdate/update.html",
               },
               {
                 title: "Diff算法",
-                path: "",
+                path: "/react/原理/Diff/diff.html",
               },
               {
                 title: "生命周期执行原理",
