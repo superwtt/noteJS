@@ -111,8 +111,8 @@ module.exports = {
                 path: "/react/原理/Diff/diff.html",
               },
               {
-                title: "生命周期执行原理",
-                path: "",
+                title: "生命周期原理",
+                path: "/react/原理/生命周期/生命周期.html",
               },
               {
                 title: "Hooks原理",
