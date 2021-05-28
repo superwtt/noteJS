@@ -1,13 +1,13 @@
 ### 背景
 
-上面一篇文章是基于首次渲染root不存在的情况。本篇文章是基于root存在，会发生哪些流程
+上面一篇文章是基于首次渲染root不存在的情况。本篇文章是基于root存在，包括首次不存在root，创建完root之后，会发生哪些流程
 
 ---
 
 ### 源码
 源码目录：`src/react/packages/react-dom/src/client/ReactDOM.js`
 
-① root存在的情况下，会走`root.render`流程。
+① 当root首次创建成功之后会走`root.render`流程；本身root存在的情况下，也会走`root.render`流程。
 
 ```javascript
 function legacyRenderSubtreeIntoContainer(
@@ -20,6 +20,24 @@ function legacyRenderSubtreeIntoContainer(
   let root: Root = (container._reactRootContainer: any);
   if (!root) {
     // 不存在root的情况
+     // Initial mount
+    root = container._reactRootContainer = legacyCreateRootFromDOMContainer(
+      container,
+      forceHydrate,
+    );
+    // Initial mount should not be batched.
+    unbatchedUpdates(() => {
+      if (parentComponent != null) {
+        root.legacy_renderSubtreeIntoContainer(
+          parentComponent,
+          children,
+          callback,
+        );
+      } else {
+        // 创建完了走root.render
+        root.render(children, callback);
+      }
+    });
   } else {
     // ...
     // Update
@@ -80,7 +98,7 @@ export function updateContainer(
 }
 ```
 
-④ `updateContainerAtExpirationTime`内部返回了`scheduleRootUpdate`，`scheduleRootUpdate`创建了一个`update`对象，`update`是一个链表结构，它上面的next属性可以帮助我们寻找下一个`update`，将`update`插入到`enqueueUpdate`队列中
+④ `updateContainerAtExpirationTime`内部返回了`scheduleRootUpdate`，`scheduleRootUpdate`创建了一个`update`对象，`update`是一个链表结构，它上面的next属性可以帮助我们寻找下一个`update`，将`update`插入到`enqueueUpdate`队列中,然后进入`scheduleWork`调度阶段
 
 ```javascript
 function scheduleRootUpdate(
@@ -113,4 +131,50 @@ function scheduleRootUpdate(
 }
 ```
 
-⑤ `scheduleWork` 调度相关
+⑤ `scheduleWork`-`beginWork` ，源码目录`src/react/packages/react-reconciler/src/ReactFiberScheduler.js`，随着调用链，内部进入`workLoop`，然后进入`beginWork`，`beginWork`的工作是传入当前fiber节点，创建子fiber节点，发生在“递归”阶段的“递”阶段
+```javascript
+function beginWork(
+  current: Fiber | null,
+  workInProgress: Fiber,
+  renderLanes: Lanes
+): Fiber | null {
+
+  // update时：如果current存在可能存在优化路径，可以复用current（即上一次更新的Fiber节点）
+  if (current !== null) {
+    // ...省略
+
+    // 复用current
+    return bailoutOnAlreadyFinishedWork(
+      current,
+      workInProgress,
+      renderLanes,
+    );
+  } else {
+    didReceiveUpdate = false;
+  }
+
+  // mount时：根据tag不同，创建不同的子Fiber节点
+  switch (workInProgress.tag) {
+    case IndeterminateComponent: 
+      // ...省略
+    case LazyComponent: 
+      // ...省略
+    case FunctionComponent: 
+      // ...省略
+    case ClassComponent: 
+      // ...省略
+    case HostRoot:
+      // ...省略
+    case HostComponent:
+      // ...省略
+    case HostText:
+      // ...省略
+    // ...省略其他类型
+  }
+}
+```
+
+
+⑥ `scheduleWork`-`completeWork`，源码目录`src/react/packages/react-reconciler/src/ReactFiberCompleteWork.js`，发生在“递归”阶段的“归”阶段，分为`update`和`mount`阶段，`mount`阶段主要包括三个逻辑：为Fiber节点生成对应的DOM节点、将子孙节点插入刚生成的DOM节点中、与update逻辑中的updateHostComponent类似处理props的过程
+
+⑦ render阶段完成，进入`commitRoot`方法，提交所有的生命周期方法`commitAllLifeCycles`，包含了调用`componentDidMount`方法
