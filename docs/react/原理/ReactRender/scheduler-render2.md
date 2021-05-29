@@ -4,6 +4,16 @@
 
 ---
 
+### 两个流程
+React内部有两个阶段：
+1. render阶段：指的是react从RootFiber开始循环生成fiber树的过程叫render过程，这个阶段不涉及浏览器的渲染
+2. commit阶段：真正做dom操作的阶段，首先会从RootFiber上拿到上一步render阶段生成的那条链表，链表上是所有发生了更新的fiber对象。然后commit阶段走了三个循环
+ + 第一个循环是为了执行`getSnapshotBeforeUpdate`生命周期
+ + 第二个循环是从链表上拿到每个`fiber`，然后从`fiber`上读取真实的dom进行更新
+ + 第三个循环是执行`didMount`等生命周期
+
+---
+
 ### 源码
 源码目录：`src/react/packages/react-dom/src/client/ReactDOM.js`
 
@@ -161,7 +171,7 @@ function beginWork(
       // ...省略
     case FunctionComponent: 
       // ...省略
-    case ClassComponent: 
+    case ClassComponent:      //  内部调用updateClassComponent，updateClassComponent内部会执行constructor和componentWillMount阶段  ins.componentWillMount()
       // ...省略
     case HostRoot:
       // ...省略
@@ -178,3 +188,25 @@ function beginWork(
 ⑥ `scheduleWork`-`completeWork`，源码目录`src/react/packages/react-reconciler/src/ReactFiberCompleteWork.js`，发生在“递归”阶段的“归”阶段，分为`update`和`mount`阶段，`mount`阶段主要包括三个逻辑：为Fiber节点生成对应的DOM节点、将子孙节点插入刚生成的DOM节点中、与update逻辑中的updateHostComponent类似处理props的过程
 
 ⑦ render阶段完成，进入`commitRoot`方法，提交所有的生命周期方法`commitAllLifeCycles`，包含了调用`componentDidMount`方法
+
+⑧ 页面是先展示了dom，才打印`componentDidMount`方法的
+
+⑨ 完整调用链：
+
+ReactDOM.render -> 
+legacyRenderSubtreeIntoContainer -> 
+root.render=ReactRoot.prototype.render -> 
+updateContainer -> 
+updateContainerAtExpirationTime -> 
+scheduleRootUpdate -> 
+scheduleWork(current, expirationTime) -> 
+requestWork -> 
+performWorkOnRoot -> 
+renderRoot -> 
+workLoop(isYieldy) -> 
+performUnitOfWork -> 
+beginWork -> switch (workInProgress.tag) {}=》ClassComponent
+updateClassComponent -> 
+constructClassInstance，mountClassInstance -> 
+
+completeRoot
