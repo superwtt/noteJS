@@ -12,4 +12,11 @@
 
 ---
 
+### 更新流程
+![](https://raw.githubusercontent.com/superwtt/MyFileRepository/main/image/React/更新流程.png)
+
+---
+
+### 参考链接
+https://zhuanlan.zhihu.com/p/35801438
 
