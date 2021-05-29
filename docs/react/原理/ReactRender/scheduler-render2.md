@@ -82,11 +82,11 @@ ReactRoot.prototype.render = function(
 };
 ```
 
-③ `updateContainer` 计算了两个时间，用于后续的更新
+③ `updateContainer` 计算了两个时间
 
 + `currentTime`是指从React初始化到现在经过了多少时间
 
-+ `expirationTime`和优先级有关，值越大，优先级越高，指的是任务的过期时间，React根据任务的优先级和当前时间计算出一个任务的执行截止时间。只要这个值比当前时间大就可以一直让React延后这个任务的执行，以便让更高优先级的任务先执行，但是一旦过了任务的截止时间，就必须让这个任务马上执行
++ `expirationTime` 更新的超时时间，和优先级有关，值越大，优先级越高，指的是任务的过期时间，React根据任务的优先级和当前时间计算出一个任务的执行截止时间。只要这个值比当前时间大就可以一直让React延后这个任务的执行，以便让更高优先级的任务先执行，但是一旦过了任务的截止时间，就必须让这个任务马上执行
 
 ```javascript
 export function updateContainer(
@@ -108,7 +108,7 @@ export function updateContainer(
 }
 ```
 
-④ `updateContainerAtExpirationTime`内部返回了`scheduleRootUpdate`，`scheduleRootUpdate`创建了一个`update`对象，`update`是一个链表结构，它上面的next属性可以帮助我们寻找下一个`update`，将`update`插入到`enqueueUpdate`队列中,然后进入`scheduleWork`调度阶段
+④ `updateContainerAtExpirationTime`内部返回了`scheduleRootUpdate`，`scheduleRootUpdate`创建了一个`update`对象，`update`是一个链表结构，它上面的next属性可以帮助我们寻找下一个`update`，不管你是`setState`还是`ReactDOM.render`造成的React更新，都会生成一个`update`对象，将`update`插入到`enqueueUpdate`队列中,然后进入`scheduleWork`任务调度阶段
 
 ```javascript
 function scheduleRootUpdate(
@@ -135,13 +135,72 @@ function scheduleRootUpdate(
 
   flushPassiveEffects();
   enqueueUpdate(current, update); // 插入到更新队列
-  scheduleWork(current, expirationTime);
+  scheduleWork(current, expirationTime); // 进入任务的调度阶段
 
   return expirationTime;
 }
 ```
 
-⑤ `scheduleWork`-`beginWork` ，源码目录`src/react/packages/react-reconciler/src/ReactFiberScheduler.js`，随着调用链，内部进入`workLoop`，然后进入`beginWork`，`beginWork`的工作是传入当前fiber节点，创建子fiber节点，发生在“递归”阶段的“递”阶段
+⑤`scheduleWork`是任务调度阶段，React会根据任务的优先级去分配各自的`expirationTime`，在过期时间到来之前先去处理更高优先级的任务，并且高优先级的任务可以打断低优先级的任务。主要做了以下几步：
++ 找到当前`fiber`的root
++ 给更新节点的父节点链上的每个节点的`expirationTime`设置为这个`update`的`expirationTime`，除非它本身的时间要小于`expirationTime`
++ 给更新节点的父节点链上的每个节点的`childExpirationTime`设置为这个`update`的`expirationTime`，除非它本身的时间要小于`expirationTime`
+
+```javascript
+function scheduleWork(fiber: Fiber, expirationTime: ExpirationTime) {
+  // debugger
+  const root = scheduleWorkToRoot(fiber, expirationTime);
+  if (root === null) {
+    if (__DEV__) {
+      switch (fiber.tag) {
+        case ClassComponent:
+          warnAboutUpdateOnUnmounted(fiber, true);
+          break;
+        case FunctionComponent:
+        case ForwardRef:
+        case MemoComponent:
+        case SimpleMemoComponent:
+          warnAboutUpdateOnUnmounted(fiber, false);
+          break;
+      }
+    }
+    return;
+  }
+
+  // 1.0 isWorking表示是否正在工作，在开始render和commit阶段都是true
+  // 2.0 nextRenderExpirationTime 是在新的renderRoot的时候会被设置为当前任务的expirationTime，而且一旦被设置，只有当下次任务是NoWork的时候才会被再次设置为NoWork，最开始也是NoWork
+  // 这个判断条件的意思是：目前没有任务在执行，并且之前有过执行任务，同时当前的任务比之前执行的任务过期时间要早，也就是优先级要高
+  // 这种情况出现在什么时候呢？上一个任务是异步任务，优先级很低，超时时间是502ms，并且上一个时间片（初始时间是33ms）任务没有执行完，而且等待下一次requestIdleCallback的时候
+  // 新任务进来了，那么优先级就变成了了先执行当前任务，也就意味着上一个任务被打断了
+  if (
+    !isWorking &&
+    nextRenderExpirationTime !== NoWork &&
+    expirationTime > nextRenderExpirationTime
+  ) {
+    // This is an interruption. (Used for performance tracking.)
+    interruptedBy = fiber;
+    resetStack();
+  }
+  markPendingPriorityLevel(root, expirationTime);
+  if (
+   // 要么没有work阶段，要么只能在render阶段，不能处于commit阶段
+    !isWorking ||
+    isCommitting ||
+
+    nextRoot !== root
+  ) {
+    const rootExpirationTime = root.expirationTime;
+    requestWork(root, rootExpirationTime);
+  }
+  if (nestedUpdateCount > NESTED_UPDATE_LIMIT) {
+    // Reset this back to zero so subsequent updates don't throw.
+    nestedUpdateCount = 0;
+  }
+}
+```
+
+
+⑥ 上一步符合条件之后就进入`requestWork`，最终都要调用`performWork`,`performWork`之后进入`performWorkOnRoot `，随后进入`renderRoot `，再进入`workLopp`,`workLoop`判断是否需要继续调用`performUnitOfWork`，然后进入`beginWork`,`beginWork`相当于“递归”阶段的“递”阶段
 ```javascript
 function beginWork(
   current: Fiber | null,
@@ -184,29 +243,46 @@ function beginWork(
 }
 ```
 
+=================================================以上是render阶段===================================================
 
-⑥ `scheduleWork`-`completeWork`，源码目录`src/react/packages/react-reconciler/src/ReactFiberCompleteWork.js`，发生在“递归”阶段的“归”阶段，分为`update`和`mount`阶段，`mount`阶段主要包括三个逻辑：为Fiber节点生成对应的DOM节点、将子孙节点插入刚生成的DOM节点中、与update逻辑中的updateHostComponent类似处理props的过程
+---
 
-⑦ render阶段完成，进入`commitRoot`方法，提交所有的生命周期方法`commitAllLifeCycles`，包含了调用`componentDidMount`方法
+=================================================开始commit阶段=====================================================
 
-⑧ 页面是先展示了dom，才打印`componentDidMount`方法的
+⑦ `completeWork`，源码目录`src/react/packages/react-reconciler/src/ReactFiberCompleteWork.js`，进入`commitRoot`方法，提交所有的生命周期方法`commitAllLifeCycles`，包含了调用`componentDidMount`方法。发生在“递归”阶段的“归”阶段，分为`update`和`mount`阶段，`mount`阶段主要包括三个逻辑：
++ 为Fiber节点生成对应的DOM节点
++ 将子孙节点插入刚生成的DOM节点中
++ 与update逻辑中的updateHostComponent类似处理props的过程
++ 在commit的过程中会调用`didMount`类的生命周期钩子
++ 页面是先展示了dom，才打印`componentDidMount`方法的
 
-⑨ 完整调用链：
+源码目录`src/react/packages/react-reconciler/src/ReactFiberScheduler.js`
+```javascript
+function completeRoot(
+  root: FiberRoot,
+  finishedWork: Fiber,
+  expirationTime: ExpirationTime,
+): void {
+  //...
+  runWithPriority(ImmediatePriority, () => {
+    commitRoot(root, finishedWork);
+  });
+}
+```
 
-ReactDOM.render -> 
-legacyRenderSubtreeIntoContainer -> 
-root.render=ReactRoot.prototype.render -> 
-updateContainer -> 
-updateContainerAtExpirationTime -> 
-scheduleRootUpdate -> 
-scheduleWork(current, expirationTime) -> 
-requestWork -> 
-performWorkOnRoot -> 
-renderRoot -> 
-workLoop(isYieldy) -> 
-performUnitOfWork -> 
-beginWork -> switch (workInProgress.tag) {}=》ClassComponent
-updateClassComponent -> 
-constructClassInstance，mountClassInstance -> 
-
-completeRoot
+⑧ 完整调用链：
+`ReactDOM.render` -> 
+`legacyRenderSubtreeIntoContainer` -> 
+`root.render`=`ReactRoot.prototype.render` -> 
+`updateContainer` -> 
+`updateContainerAtExpirationTime` -> 
+`scheduleRootUpdate` -> 
+`scheduleWork(current, expirationTime)` -> 
+`requestWork` -> 
+`performWorkOnRoot` -> 
+`renderRoot` -> 
+`workLoop(isYieldy)` -> 
+`performUnitOfWork` -> 
+`beginWork` -> `switch (workInProgress.tag) {}`=》`ClassComponent`
+`updateClassComponent` -> 
+`constructClassInstance`，`mountClassInstance` -> 
