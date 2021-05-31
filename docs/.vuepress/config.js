@@ -33,7 +33,7 @@ module.exports = {
                 children: [
                   {
                     title: "react1-10",
-                    path: "/react/概念/react/react1-10.html",
+                    path: "/react/概念/react相关/react1-10.html",
                   },
                 ],
               },
@@ -129,10 +129,6 @@ module.exports = {
               {
                 title: "SetState",
                 path: "/react/原理/State/state.html",
-              },
-              {
-                title: "useState",
-                path: "",
               },
               {
                 title: "路由",
