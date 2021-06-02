@@ -230,9 +230,14 @@ sh.render(); // <p>Hello, React</p>
 ---
 
 ### React中render()的目的
+1. 一个class组件必须要实现一个render方法，否则会报错`TypeError：instance.render is not a function`
+2. render方法返回一个JSX元素，根据渲染原理将JSX渲染成真实的DOM映射到页面上
 
+---
 
-
+### React中的state和props
+1. state是数据的来源，保存着该组件当前的数据状态，任何UI的改变，都可以从state的变化中反映出来
+2. props是属性，一般用作父组件向子组件传值，是只读的，可以设置默认类型和默认值
 
 
 

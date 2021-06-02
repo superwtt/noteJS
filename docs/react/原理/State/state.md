@@ -107,6 +107,7 @@ export function batchedUpdates<A, R>(fn: A => R, a: A): R {
 4. 当上下文什么都没有的情况下，我们会同步的执行这次更新。当我们用`setTimeout`触发`this.setState`，就会进入`executionContext === NoContext`触发同步的更新
   + 我们用`ReactDOM.render`创建出来的应用叫做同步的优先级,要进入`if (executionContext === NoContext)`的前提是`if (lane === SyncLane)`，也就是说当前更新的优先级是同步的优先级
   + 而用concurrent模式下的优先级是异步的优先级，即使`this.setState`被异步包裹了，状态的更新也是异步的
+5. `setTimeout`、`setInterval`、直接在DOM上绑定原生事件，都不会进入React的这个调度流程，这种情况下都是同步的。但是同步也代表着DOM的同步更新，也就意味着如果你多次setState，会导致多次更新，这是毫无意义且浪费性能的
 5. 总结：这道题目对于不同模式下的应用答案是不一样的  
 
 ```javascript
@@ -127,6 +128,43 @@ export function scheduleUpdateOnFiber(){
 }
 
 ```
+
+---
+
+##### 如何获取最新的state呢
+1. 回调函数callback
+```javascript
+this.setState({
+  val: this.state.val+1
+},()=>{
+  console.log(this.state.val)
+})
+```
+
+2. componentDidUpdate
+```javascript
+componentUpdate(){
+  console.log(this.state.val)
+}
+```
+
+3. 将`setState`放在`setTimeout`中
+```javascript
+let that = this;
+setTimeout(()=>{
+  that.setState({val:that.state.val+1})
+  console.log(that.state.val)
+})
+```
+
+---
+
+### 什么是合成事件
+1. 定义：React为了解决跨平台、兼容性问题，自己封装了一套事件机制，代理了原生事件。在JSX中，常见的`onClick`、`onChange`都是合成事件
+2. 目的：
+ + 进行浏览器兼容，实现更好的跨平台
+3. 与原生事件的区别 
+
 
 #### 参考链接
 [Good](https://mp.weixin.qq.com/s/my2Jx7pcbVYnaCWklAzKXA)
