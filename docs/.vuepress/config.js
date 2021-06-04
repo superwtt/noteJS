@@ -93,8 +93,8 @@ module.exports = {
                     path: "/react/原理/ReactRender/scheduler-调度.html",
                   },
                   {
-                    title:"渲染流程四-协调",
-                    path: "/react/原理/ReactRender/协调.html",
+                    title:"渲染流程四-协调流程",
+                    path: "/react/原理/ReactRender/协调流程.html",
                   },
                   {
                     title:"流程图",
@@ -105,6 +105,19 @@ module.exports = {
               {
                 title: "React更新原理",
                 path: "/react/原理/ReactUpdate/update.html",
+              },
+              {
+                title: "React架构",
+                children:[
+                  {
+                    title:"React15与React16架构对比",
+                    path: "/react/原理/React架构/React架构对比/React15与React16架构对比.html",
+                  },
+                  {
+                    title:"协调流程",
+                    path: "/react/原理/React架构/协调/协调流程.html",
+                  },
+                ]
               },
               {
                 title: "Diff算法",
