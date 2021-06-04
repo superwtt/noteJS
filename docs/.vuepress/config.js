@@ -66,9 +66,9 @@ module.exports = {
             ],
           },
           {
-            title:"原理篇",
+            title: "原理篇",
             collapsable: true,
-            children:[
+            children: [
               {
                 title: "ReactElement",
                 path: "/react/原理/ReactElement/ReactElement.html",
@@ -79,28 +79,28 @@ module.exports = {
               },
               {
                 title: "React渲染原理",
-                children:[
+                children: [
                   {
-                    title:"渲染流程一-没有root创建root",
+                    title: "渲染流程一-没有root创建root",
                     path: "/react/原理/ReactRender/scheduler-render1.html",
                   },
                   {
-                    title:"渲染流程二-有root直接创建更新",
+                    title: "渲染流程二-有root直接创建更新",
                     path: "/react/原理/ReactRender/scheduler-render2.html",
                   },
                   {
-                    title:"渲染流程三-任务调度",
+                    title: "渲染流程三-任务调度",
                     path: "/react/原理/ReactRender/scheduler-调度.html",
                   },
                   {
-                    title:"渲染流程四-协调流程",
+                    title: "渲染流程四-协调流程",
                     path: "/react/原理/ReactRender/协调流程.html",
                   },
                   {
-                    title:"流程图",
+                    title: "流程图",
                     path: "/react/原理/ReactRender/流程图.html",
                   },
-                ]
+                ],
               },
               {
                 title: "React更新原理",
@@ -108,16 +108,52 @@ module.exports = {
               },
               {
                 title: "React架构",
-                children:[
+                children: [
                   {
-                    title:"React15与React16架构对比",
+                    title: "React15与React16架构对比",
                     path: "/react/原理/React架构/React架构对比/React15与React16架构对比.html",
                   },
                   {
-                    title:"协调流程",
-                    path: "/react/原理/React架构/协调/协调流程.html",
+                    title: "调度",
+                    path: "/react/原理/React架构/调度/调度.html",
                   },
-                ]
+                  {
+                    title: "协调",
+                    path: "",
+                    children: [
+                      {
+                        title: "Fiber架构",
+                        path: "/react/原理/React架构/协调/Fiber架构.html",
+                      },
+                      {
+                        title: "协调具体流程",
+                        path: "/react/原理/React架构/协调/介绍协调流程.html",
+                        children: [
+                          {
+                            title: "协调流程-递阶段mount",
+                            path: "/react/原理/React架构/协调/协调具体流程/协调流程-递阶段mount.html",
+                          },
+                          {
+                            title: "协调流程-递阶段update",
+                            path: "/react/原理/React架构/协调/协调具体流程/协调流程-递阶段update.html",
+                          },
+                          {
+                            title: "协调流程-归阶段mount",
+                            path: "/react/原理/React架构/协调/协调具体流程/协调流程-归阶段mount.html",
+                          },
+                          {
+                            title: "协调流程-归阶段update",
+                            path: "/react/原理/React架构/协调/协调具体流程/协调流程-归阶段update.html",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    title: "渲染",
+                    path: "/react/原理/React架构/渲染/渲染.html",
+                  },
+                ],
               },
               {
                 title: "Diff算法",
@@ -150,9 +186,9 @@ module.exports = {
               {
                 title: "Redux原理",
                 path: "/react/原理/Redux/redux.html",
-              }
-            ]
-          }
+              },
+            ],
+          },
         ],
       },
       {
