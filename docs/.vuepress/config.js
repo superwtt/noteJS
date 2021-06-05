@@ -152,6 +152,20 @@ module.exports = {
                   {
                     title: "渲染",
                     path: "/react/原理/React架构/渲染/渲染.html",
+                    children:[
+                      {
+                        title: "beforemutation阶段",
+                        path: "/react/原理/React架构/渲染/1-beforemutation阶段.html",
+                      },
+                      {
+                        title: "mutation阶段",
+                        path: "/react/原理/React架构/渲染/2-mutation阶段.html",
+                      },
+                      {
+                        title: "layout阶段",
+                        path: "/react/原理/React架构/渲染/3-layout阶段.html",
+                      },
+                    ]
                   },
                 ],
               },
