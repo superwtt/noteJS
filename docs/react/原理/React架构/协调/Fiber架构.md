@@ -72,7 +72,7 @@ Fiber架构采用一种双缓存的工作机制：在内存中构建当前帧，
 
 
 2. 首屏渲染
-不管是首屏渲染，还是调用`this,setState`、`useState`、`update`创建的更新，都会从根节点开始创建一棵Fiber树。在两棵Fiber树（current fiber树和workInProgress树）之间，都存在的fiber节点会通过`alternate`属性连接，方便两个fiber节点之间共用一些的属性。
+不管是首屏渲染，还是调用`this.setState`、`useState`、`update`创建的更新，都会从根节点开始创建一棵Fiber树。在两棵Fiber树（current fiber树和workInProgress树）之间，都存在的fiber节点会通过`alternate`属性连接，方便两个fiber节点之间共用一些的属性。
 
 接下来采用深度优先遍历的方式模拟递归，创建整棵Fiber树
 
