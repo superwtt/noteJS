@@ -239,14 +239,56 @@ sh.render(); // <p>Hello, React</p>
 1. state是数据的来源，保存着该组件当前的数据状态，任何UI的改变，都可以从state的变化中反映出来
 2. props是属性，一般用作父组件向子组件传值，是只读的，可以设置默认类型和默认值
 
+--- 
 
+### 如何在React中应用样式
+1. 外部样式表
+`import './style.css'`
+2. 内联样式
+```javascript
+<div style={{backgroundColor:'red'}}>
+  // ...
+</div>
+```
+3. 定义对象并使用它
+```javascript
+const footerStyle = {
+   width:'100%',
+   backgroundColor:'green'
+}
+render(){
+   <div style={footerStyle}>
+     // ...
+   </div> 
+}
+```
 
+---
 
+### 简要描述一下你知道的React的工作原理是什么
+1. 从`ReactDOM.render`开始构建`Fiber树`进而转为虚拟DOM树，通过虚拟DOM描述真实的DOM
+2. 使用Diff算法高效地计算虚拟DOM的变化，并将虚拟DOM映射到真实页面上
+3. 每个组件都拥有生命周期来管理状态的变化，使用props以及redux来管理跨组件的数据传递和管理
+4. 可以在不同平台渲染
 
+---
 
+### React是什么？它的主要特点是什么？
+React是一个用于构建用户界面的JavaScript库，它的特点是虚拟DOM、组件化、声明式开发、单向数据流
 
+---
 
+### React中的key有什么作用
+React中利用key来识别组件，它是一种身份的标识，就像我们的身份证来识别一个人一样，每个key对应一个组件，相同的key React会认为是一个组件。
 
+有了key之后，就可以与组件建立一种对应关系，在React的diff算法中，根据key来决定是销毁组件还是更新组件：
+
++ key相同：若只有属性的改变，则React只会更新改变的属性而不是销毁再创建，提高了性能
++ key不同：React会先销毁组件然后再创建组件
+
+---
+
+### 为什么不建议使用index作为key
 
 
 
