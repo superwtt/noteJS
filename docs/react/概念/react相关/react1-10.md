@@ -239,7 +239,10 @@ sh.render(); // <p>Hello, React</p>
 1. state是数据的来源，保存着该组件当前的数据状态，任何UI的改变，都可以从state的变化中反映出来
 2. props是属性，一般用作父组件向子组件传值，是只读的，可以设置默认类型和默认值
 
+---
 
+### useLayoutEffect和useEffect的区别
+1. useEffect
 
 
 
