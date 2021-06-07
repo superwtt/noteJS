@@ -261,7 +261,12 @@ function commitLifeCycles(
 `componentDidMount`和`componentDidUpdate`会在`layout阶段`执行。此时`current Fiber`树已经指向更新后的Fiber树，在生命周期钩子内获取的DOM就是更新后的
 
 
+---
 
+### 调度、协调、渲染的流程
+调度（让每个任务分片执行）
+协调 把JSX->React element->Fiber节点->Fiber树->虚拟DOM树->DOM树
+渲染 根据Fiber节点上的effectTag对DOM树做增删改插入的操作，并执行相应的生命周期函数 
 
 
 
