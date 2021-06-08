@@ -100,6 +100,10 @@ module.exports = {
                     title: "流程图",
                     path: "/react/原理/ReactRender/流程图.html",
                   },
+                  {
+                    title: "完整流程",
+                    path: "/react/原理/ReactRender/完整流程.html",
+                  },
                 ],
               },
               {

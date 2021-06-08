@@ -15,6 +15,23 @@
 
 ---
 
+### Update的结构
+```js
+const update: Update<*> = {
+   eventTime, // 任务的时机
+   lane, // 优先级相关，不同update的优先级可能是不同的
+   suspenseConfig,
+   tag: UpdateState,  // 更新的类型，包括UpdateState、ReplaceState、ForceUpdate、CaptureUpdate
+   payload: null, // 更新挂载的数据，不同类型组件挂载的数据不同。对于ClassComponent，payload为this.setState的第一个传参，对于HostRoot，payload为ReactDOM.render的第一个传参
+   callback: null, // 更新的回调函数
+   
+   next: null // 与其他update连接形成的链表
+}
+
+```
+
+---
+
 ### 流程
 1. 触发状态更新，根据不同场景调用不同的方法，这些不同的方法触发的更新会拥有不同的优先级
 2. 创建`Update`对象，对于`FunctionComponent`来说，就是在`dispatchAction`中创建`Update`对象
