@@ -191,6 +191,57 @@ class TodoListContainer extends React.Component{
     }
 }
 ```
+---
+
+```js
+// 简单的高阶组件示例
+import React, {Component} from "react";
+export default (WrapperedComponent)=>{
+   return class extends Component{
+     constructor(props){
+         super(props);
+         this.state = {
+             count:1; // 定义可复用状态
+         }
+     }
+     componentDidMount(){
+         alert('111')
+     }
+     // 定义可复用方法
+     getCode(mobile){
+         this.setState({count:mobile})
+         console.log(mobile)
+     }
+     postVcode(mobile){
+         //...
+     }
+     render(){
+         return(
+             <div>
+               <WrapperedComponent getCode={this.getCode} state={this.state} {...this.props} />
+             </div>
+         )
+     }
+    } 
+   } 
+}
+
+// 传入高阶组件
+import React from "react";
+import HOC from "./index";
+
+class Register extends Component{
+   render(){
+      return (
+        <div>
+           <button onClick={()=>{this.props.getCode('126823345')}}>使用高阶组件里复用的方法</button>
+           {this.props.state.count}
+        </div>  
+      ) 
+   } 
+}
+export default HOC(Register)
+```
 
 ---
 
@@ -242,10 +293,16 @@ sh.render(); // <p>Hello, React</p>
 ---
 
 ### useLayoutEffect和useEffect的区别
-1. useEffect
+1. 源码
 
+---
 
+### pureComponent和Component的区别
+`PureComponent`和`Component`唯一的差别就是：`PureComponent`帮我们做了`shouldComponentUpdate`的判断
 
+```js
+
+```
 
 
 
