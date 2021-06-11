@@ -252,3 +252,31 @@ class sub extends sup {
   }
   ```
 - 无论有没有使用`constructor`，在 render 中都可以访问`this.props`
+
+
+---
+
+### 总结
+为什么必须写`super(props)`?
+
+这个问题可以分两个层次：
+1.为什么调用`super()`
++ ES6 规定，子类的构造函数必须执行一次`super`函数
++ 为什么必须执行一次`super`函数？
+  + 因为super作为函数相当于父类的构造函数，也就是相当于`Parent.prototype.constructor.call(this)`
+  + 执行一遍父类的构造函数，让子类有机会去设置自己的this,并且继承父类的属性和原型对象上的方法
+
+2.为什么传递`props`
++ 首先传递`props`不是必须的，除非我们要在`constructor`中访问`this.props`
++ 为什么不是必须的，因为React在实例化结束后，会默认帮我们设置props
+```js
+// React 内部
+const instance = new YourComponent(props);
+instance.props = props;
+```
+
+---
+### 参考地址
+[ryf](https://www.bookstack.cn/read/es6-3rd/spilt.3.docs-class-extends.md)
+
+[掘金](https://juejin.cn/post/6844903729980768269)

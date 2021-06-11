@@ -48,6 +48,10 @@ module.exports = {
                   {
                     title: "super的作用",
                     path: "/react/概念/react相关/super的作用.html",
+                  },
+                  {
+                    title: "React的事件机制",
+                    path: "/react/概念/react相关/React的事件机制.html",
                   }
                 ],
               },
