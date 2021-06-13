@@ -32,9 +32,27 @@ module.exports = {
                 title: "react",
                 children: [
                   {
-                    title: "react1-10",
-                    path: "/react/概念/react相关/react1-10.html",
+                    title: "面试题集锦",
+                    path: "/react/概念/react相关/面试题集锦/react1.html",
+                    children:[
+                      {
+                        title: "react1",
+                        path: "/react/概念/react相关/面试题集锦/react1.html",
+                      },
+                      {
+                        title: "react2",
+                        path: "/react/概念/react相关/面试题集锦/react2.html",
+                      }
+                    ]
                   },
+                  {
+                    title: "super的作用",
+                    path: "/react/概念/react相关/super的作用.html",
+                  },
+                  {
+                    title: "React的事件机制",
+                    path: "/react/概念/react相关/React的事件机制.html",
+                  }
                 ],
               },
               {
@@ -99,6 +117,10 @@ module.exports = {
                   {
                     title: "流程图",
                     path: "/react/原理/ReactRender/流程图.html",
+                  },
+                  {
+                    title: "完整流程",
+                    path: "/react/原理/ReactRender/完整流程.html",
                   },
                 ],
               },
