@@ -513,8 +513,51 @@ React中reducer对state的管控就采用了纯函数的思想，践行了React�
 
 ---
 
+### React是如何处理表单输入的
+先把输入的值存在组件的state中，之后通过状态的改变而更新页面的内容，从而显示正确的值，用户提交的也是从state里获取的表单的value
 
+---
 
+### 请你说说对Fiber架构的理解
+1.在React15.0版本中，React协调器的更新是同步的，这就会带来一个问题，当页面需要渲染比较多的DOM元素时，就会出现卡顿，称为`stack Reconciler`
+2.React16.0改进了这个缺点：将更新分优先级层次，用异步的更新代替了同步的更新。React16的协调器是基于Fiber架构实现的，所以被称为`Fiber Reconciler`。
 
+`Fiber`保存了组件对应的类型、dom节点、更新状态、需要执行的副作用等信息，JSX中的每一个节点都被称为fiber节点，从而形成一个fiber树，React16的协调器是基于Fiber节点实现的，所以又被称为`Fiber Reconciler`
 
+---
 
+### React中setState和replaceState的区别是什么？
+1. setState是更新状态
+2. replaceState是替换状态
+
+```js
+state = { a:1,b:2 }
+
+//setState({c:3})之后
+state { a:1,b:2,c:3 }
+
+// replaceState之后
+state { c: 3 }
+```
+
+---
+
+### React中的状态提升是什么
+1. 当我们遇到几个组件需要共用状态数据的情况下，最好将这部分共享的状态提升至他们最近的父组件当中进行管理
+
+2. 比如input表单，`onchange`时，调用父组件传递过来的方法，将值作为回调传递给父组件，父组件改变state之后再通过props传递给子组件，这就实现了一个状态提升的流程
+
+---
+
+### 请你描述下你对React新特性hooks的理解，她又哪些可以应用的场景？
+React有两种自定义组件：类组件和函数组件
+
+类组件提供各种各样的生命周期函数，让我们有能力去操作React渲染过程中的各个阶段，实现业务逻辑
+
+函数组件无法使用生命周期函数，新增了hooks特性模拟生命周期的行为，让我们能够以更加编程式的方式构建应用
+
+hooks的应用场景：
++ 修改数据状态：setState
++ 执行DOM挂载或更新之后的事务：useEffect
++ 共享数据，跨组件传值：useContext
++ 复杂的状态管理：useReducer

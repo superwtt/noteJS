@@ -87,8 +87,19 @@ React在给document注册事件的时候也是对兼容性做了处理
 
 ### 事件注册机制
 
+#### 事件注册过程
+React的事件注册过程其实主要做了2件事情：事件注册、事件存储
+1. 事件注册-组件的挂载阶段，根据组件内声明的事件类型`onclick`、`onchange`等，给document上添加事件-addEventListener，并指定统一的事件处理程序dispatchEvent
 
 
+2. 事件存储-就是把React组件内所有事件统一存放到一个对象里，缓存起来，为了在触发事件的时候可以查找到对应的方法去执行
+
+![](https://raw.githubusercontent.com/superwtt/MyFileRepository/main/image/React/事件注册机制.png)
+
+---
+
+#### 关键步骤
+首先React拿到将要挂载的组件的虚拟dom，其实就是React Element对象，然后处理`react dom`的props，判断属性内是否有声明为事件的属性，比如`onClick`、`onChange`，这个时候得到事件类型`click`、`change`和对应的事件处理程序fn，然后执行后面的3步
 
 
 
