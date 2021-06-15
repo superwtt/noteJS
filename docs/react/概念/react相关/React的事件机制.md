@@ -100,6 +100,7 @@ React的事件注册过程其实主要做了2件事情：事件注册、事件�
 
 #### 关键步骤
 首先React拿到将要挂载的组件的虚拟dom，其实就是React Element对象，然后处理`react dom`的props，判断属性内是否有声明为事件的属性，比如`onClick`、`onChange`，这个时候得到事件类型`click`、`change`和对应的事件处理程序fn，然后执行后面的3步
+a. 完成事件注册
 
 
 

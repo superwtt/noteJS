@@ -83,13 +83,39 @@ b1.show === b2.show // true
 
 ### React的mixins有什么作用？适用于什么场景？
 1. 定义：在一些大型项目中，经常会存在多个组件需要使用相同功能的情况，如果每个组件都重复性的加入相同的代码，那么代码的维护性将会变得非常差，mixins的出现就是为了解决这个问题。可以将通用的方法包装成mixins方法，然后注入到各个组件中
-（目前已经废弃）
+```js
+var SetIntervalMixin = {
+  componentWillMount:function(){
+    this.intervals = []
+  },
+  setInterval: function(){
+    this.intervals.push(setInterval.apply(null, arguments))
+  },
+  componentWillUnMount: function(){
+    this.intervals.map(clearInterval);
+  }
+}
+var TickTok = React.createClass({
+  mixins: [SetIntervalMixin],
+  getInitialState: function(){
+    return { second: 0 }
+  }
+  componentDidMount: function(){
+    this.setInterval(this.tick, 1000)
+  }
+})
+```
 
-2. 区别
-+ mixins
-  + mixin的作用是抽离公共功能
-  + mixin只提供接口即方法，不提供属性
+2. 为什么被废弃
++ mixin引入了隐式地依赖关系
++ 不同mixin之间可能会有先后顺序甚至代码冲突覆盖的问题
++ mixin代码会导致滚雪球式的复杂性
 
-+ 高阶组件
+3. 区别
++ mixin类似于一个对象，引入对象的方法，mixin只提供方法不提供属性
++ 高阶组件是返回了一个具有公共属性和方法的新组件
++ 高阶组件的功能更强大一点，能抽离state、操作props，跟一个正常组件一样
 
-https://segmentfault.com/a/1190000019997397
+---
+
+### 什么是传送门portals

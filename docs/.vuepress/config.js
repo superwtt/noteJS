@@ -34,6 +34,7 @@ module.exports = {
                   {
                     title: "面试题集锦",
                     path: "/react/概念/react相关/面试题集锦/react1.html",
+                    collapsable:true,
                     children:[
                       {
                         title: "react1",

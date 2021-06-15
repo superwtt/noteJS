@@ -1,7 +1,5 @@
 ### “递”阶段update时的beginWork工作
 
-createWorkInProgress和beginWork的工作流程是什么
-
 ### 源码
 源码目录：`react/packages/react-reconciler/src/ReactFiberBeginWork.js`
 ```javascript
