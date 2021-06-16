@@ -246,3 +246,16 @@ class Bar extends React.Component {
 ---
 
 ### 你用过哪些React的第三方中间件
+#### 常用中间件
+React的数据管理中心redux常用的中间件是`react-thunk`、`react-saga`、`react-persist`
+
+#### 常用组件
+`react-loadable`、`withRouter`、`react-transition-group`
+
+---
+
+### 简要说一下React源码的执行流程
+https://zhuanlan.zhihu.com/p/40987447
+
+### flux,redux,react-redux,redux-thunk,redux-saga,dva的区别
+https://blog.csdn.net/yangjidaimin/article/details/105367546

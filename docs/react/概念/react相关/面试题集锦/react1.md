@@ -561,3 +561,122 @@ hooks的应用场景：
 + 执行DOM挂载或更新之后的事务：useEffect
 + 共享数据，跨组件传值：useContext
 + 复杂的状态管理：useReducer
+
+---
+
+### React中绑定this的方式
+1. 构造函数`constructor`中利用bind绑定
+2. 函数定义的时候使用箭头函数
+
+---
+
+### React是如何阻止事件冒泡的
+1. `e.stopPropagation()`：阻止合成事件之间的冒泡
+2. `e.nativeEvent.stopImmediatePropagation()`：阻止合成事件往最外层document上的事件之间的冒泡
+3. `e.target.value`：阻止合成事件，通过判断`e.target`来判断要不要阻止document上事件的冒泡
+
+```js
+// 阻止原生事件之间的冒泡
+class Bubble extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      count: 0
+    }
+  }
+
+  handleClick=(e)=>{
+    e.stopPropagation()
+    this.setState({count: this.state.count+1})
+  }
+
+  testClick=()=>{
+    console.log("test")
+  }
+
+  render(){
+    return (
+      <div ref="test" onClick={()=>this.testClick()}>
+        <p>{this.state.count}</p>
+        <a ref="update" onClick={e=>this.handleClick(e)}>
+          更新
+        </a>
+      </div>
+    )
+  }
+}
+```
+---
+
+```js
+// 阻止合成事件与最外层document上的事件之间的冒泡
+class Bubble extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      count: 0
+    }
+  }
+
+  componentDidMount(){
+    document.addEventListener("click".()=>{
+      console.log("document")
+    })
+  }
+
+  handleClick=(e)=>{
+    e.nativeEvent.stopImmediatePropagation()
+    this.setState({count: this.state.count+1})
+  }
+
+  render(){
+    return (
+      <div ref="test">
+        <p>{this.state.count}</p>
+        <a ref="update" onClick={e=>this.handleClick(e)}>
+          更新
+        </a>
+      </div>
+    )
+  }
+}
+```
+---
+
+```js
+// 阻止合成事件与除最外层document上的原生事件之间的冒泡
+class Bubble extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      count: 0
+    }
+  }
+
+  componentDidMount(){
+    document.addEventListener("click",(e)=>{
+      // 通过e.target来判断要不要阻止document上事件的冒泡
+      if(e.target&&e.target.matches('a')){
+        return
+      }
+      console.log("document")
+    })
+  }
+
+  handleClick=(e)=>{
+    e.stopPropagation(); // 阻止与testClick之间的冒泡
+    this.setState({count: this.state.count+1})
+  }
+
+  render(){
+    return (
+      <div ref="test">
+        <p>{this.state.count}</p>
+        <a ref="update" onClick={e=>this.handleClick(e)}>
+          更新
+        </a>
+      </div>
+    )
+  }
+}
+```

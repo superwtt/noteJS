@@ -224,6 +224,11 @@ module.exports = {
                 title: "Redux原理",
                 path: "/react/原理/Redux/redux.html",
               },
+              {
+                title: "一个小型的redux",
+                path: "/react/原理/Redux/一个小型的redux.html",
+              },
+              
             ],
           },
         ],
