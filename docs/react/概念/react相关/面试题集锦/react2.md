@@ -119,3 +119,130 @@ var TickTok = React.createClass({
 ---
 
 ### 什么是传送门portals
+
+1. 定义：`Portal`提供了一种将子节点渲染到存在于父节点以外的DOM节点的优秀方案
+
+2. 代码示例：
+```js
+import { createPortal } from 'react-dom'
+
+class Modal extends PureComponent {
+  constructor(props){
+    super(props)
+    const doc = window.document
+    this.node = doc.createElement('div')
+    doc.body.appendChild(this.node)
+  }
+  componentWillUnMount(){
+    window.document.body.removeChild(this.node)
+  }
+  render(){
+    return createPortal(
+      <div className="mask">
+        <div className="modal">
+          <h3>Modal</h3>
+          {this.props.children}
+        </div>
+      </div>,
+      this.node
+    )
+  }
+}
+```
+
+3. 截图
+
+![](https://raw.githubusercontent.com/superwtt/MyFileRepository/main/image/React/portals.png)
+
+4. 应用场景
+对话框、悬浮卡以及提示框
+
+---
+
+### 说说你对Error Boundaries的理解
+
+1. 定义：
++ 部分UI组件中的JavaScript错误不应该破坏整个应用程序。为了解决React用户的这个问题，React16引入了一个新的概念`Error Boundaries`
++ `Error Boundaries`可以捕获并打印发生在其子组件树任何位置的JavaScript错误，并且它会渲染出备用UI，而不是渲染那些崩溃了的子组件树。
++ 错误边界在渲染期间、生命周期方法和整个组件树的构造函数中捕获错误
+
+2. 示例代码
+```js
+// 1.0 error boundary component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false,
+    };
+  }
+
+  componentDidCatch(error, info) {
+    console.log(error)  
+    this.setState({ hasError: true });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong</h1>;
+    }
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
+
+// 2.0 error component
+class Bar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      counter: 0,
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState({
+      counter: this.state.counter + 1,
+    });
+  }
+
+  render() {
+    console.log("component ErrorComponent render...");
+    const { counter } = this.state;
+    const { handleClick } = this;
+    if (counter === 5) {
+      throw new Error("counter creashed!");
+    }
+    return (
+      <ErrorBoundary>
+        <p>this component will throw Error when the counter equal to 5</p>
+        <p>counter : {counter}</p>
+        <button onClick={handleClick}>add</button>
+      </ErrorBoundary>
+    );
+  }
+}
+
+// 3.0 出口函数
+<div>
+  <ErrorBoundary>
+    <ErrorComponent />
+  </ErrorBoundary>        
+</div>
+```
+
+3. 不能使用的场景
++ 事件处理函数触发的错误，因为错误边界处理的是render中的错误，而事件处理函数不是发生在render的过程中
++ 异步代码
++ 服务端渲染
++ 自己产生的错误
+
+4. 与`try catch`对比
+`try catch`适用于处理事件函数中的异常
+
+---
+
+### 你用过哪些React的第三方中间件
