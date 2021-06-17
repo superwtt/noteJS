@@ -80,6 +80,10 @@ module.exports = {
                     title: "redux1-10",
                     path: "/react/概念/redux/redux1-10.html",
                   },
+                  {
+                    title: "中间件的区别",
+                    path: "/react/概念/redux/中间件的区别.html",
+                  },
                 ],
               },
             ],
