@@ -256,10 +256,14 @@ React的数据管理中心redux常用的中间件是`react-thunk`、`react-saga`
 
 
 ### 简要说一下React源码的执行流程
-https://zhuanlan.zhihu.com/p/40987447
+1. 
+
+2. 
+
+3. 
+
+4. [图示](https://zhuanlan.zhihu.com/p/40987447)
+
 
 ### React的渲染原理
 ---
-
-### flux,redux,react-redux,redux-thunk,redux-saga,dva的区别
-https://blog.csdn.net/yangjidaimin/article/details/105367546
