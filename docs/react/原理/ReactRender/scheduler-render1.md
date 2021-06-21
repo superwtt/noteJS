@@ -66,6 +66,7 @@ const ReactDOM: Object = {
 }
 ```
 
+
 ② `legacyRenderSubtreeIntoContainer` 顾名思义，legacy模式下render子树到container容器里，用来初始化container。
 
 container是dom实例，第一次渲染肯定没有`_reactRootContainer`，所以`root=container._reactRootContainer`被赋值给了`legacyCreateRootFromDOMContainer(container, )`
