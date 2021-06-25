@@ -213,7 +213,7 @@ root = ({
 })
 ```
 
-⑦ `createFiberRoot`内部执行了`const uninitializedFiber = createHostRootFiber(isConcurrent);`，顾名思义，React企图用一个叫做“创建主要的RootFiber”的函数生成一个`uninitializedFiber`未初始化的Fiber节点。然后将root的current属性指向这个Fiber节点
+⑦ `createFiberRoot`内部执行了`const uninitializedFiber = createHostRootFiber(isConcurrent);`，顾名思义，React企图用一个叫做“创建主要的RootFiber”的函数生成一个`uninitializedFiber`来初始化Fiber节点。然后将root的current属性指向这个Fiber节点
 
 可以看出，`createHostRootFiber`返回的结果，就是`RootFiber`。
 

@@ -254,16 +254,12 @@ React的数据管理中心redux常用的中间件是`react-thunk`、`react-saga`
 
 ---
 
-
 ### 简要说一下React源码的执行流程
-1. 
+[图示](https://zhuanlan.zhihu.com/p/40987447)
 
-2. 
-
-3. 
-
-4. [图示](https://zhuanlan.zhihu.com/p/40987447)
-
+---
 
 ### React的渲染原理
+[图示](https://zhuanlan.zhihu.com/p/40987447)
+
 ---
