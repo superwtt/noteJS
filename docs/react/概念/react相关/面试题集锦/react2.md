@@ -264,5 +264,15 @@ React的数据管理中心redux常用的中间件是`react-thunk`、`react-saga`
 
 ---
 
+### React.StrictMode是什么意思，有什么作用
+1. `StrictMode`是一个用来标记出应用中潜在问题的工具，就像`Fragment`、`StrictMode`不会渲染出任何真实的UI，它为后代元素触发额外的检查和警告
+2. 作用：
++ 识别不安全的生命周期组件
++ 有关旧式字符串ref用法的警告
++ 关于使用废弃的findDOMNode方法的警告
++ 检测意外的副作用
++ 检测过时的context API
+---
+
 ### memo/useMemo/useCallback性能优化
 https://juejin.cn/post/6977258085903515685

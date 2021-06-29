@@ -88,7 +88,7 @@ function legacyRenderSubtreeIntoContainer(
       forceHydrate,
     );
     // Initial mount should not be batched.
-    unbatchedUpdates(() => {
+    (() => {
       if (parentComponent != null) {
         root.legacy_renderSubtreeIntoContainer(
           parentComponent,
