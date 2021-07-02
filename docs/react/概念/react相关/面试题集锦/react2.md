@@ -275,4 +275,223 @@ React的数据管理中心redux常用的中间件是`react-thunk`、`react-saga`
 ---
 
 ### memo/useMemo/useCallback性能优化
-https://juejin.cn/post/6977258085903515685
+1. memo：针对子组件不采用父组件参数时，则可以采用memo来减少子组件的渲染，达到性能优化
+```js
+import React, { useState, memo } from "react";
+
+const Child = (props) => {
+  console.log("子组件渲染");
+  return <div>子组件</div>;
+};
+
+const ChildMemo = memo(Child)
+
+const MemoComp = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <button
+        onClick={(e) => {
+          setCount(count + 1);
+        }}
+      >
+        +
+      </button>
+      <p>计数器：{count}</p>
+
+      <!-- 子组件依赖父组件的count，这时候使不使用memo没有区别 -->
+      <ChildMemo count={count} /> 
+
+      <!-- 子组件不依赖父组件的count，这时候使用memo可以减少子组件的渲染 -->
+      <ChildMemo /> 
+    </div>
+  );
+};
+
+export default MemoComp;
+```
+
+2. useMemo：
++ 把创建函数和依赖项数组作为参数传入useMemo，它仅会在某个依赖项改变时才会重新计算memoized的值，这种优化有助于避免在每次渲染时都进行高开销的计算
++ 如果没有提供依赖项数组，那么useMemo在每次渲染时都会计算新的值
++ useMemo(()=>fn, deps)相当于useCallback(fn, deps)
+```js
+import React, { useCallback, useEffect, useState, useMemo } from "react";
+
+const MemoComp = () => {
+  const [count, setCount] = useState(1);
+  const [val, setValue] = useState("");
+
+  // getNum的计算仅仅跟count有关，但是不用useMemo的话，无论是count还是val的变化，都会导致getNum重新计算
+  // 这里我们希望val修改的时候，不需要再次计算
+
+  // const getNum = ()=>{
+  //   console.log("ddd");
+  //   return Array.from({ length: count * 100 }, (v, i) => i).reduce(
+  //     (a, b) => a + b
+  //   );
+  // }
+
+  // 只有count变化的时候才会重新计算
+  const getNum = useMemo(() => {
+    console.log("ddd");
+    return Array.from({ length: count * 100 }, (v, i) => i).reduce(
+      (a, b) => a + b
+    );
+  }, [count]);
+
+  return (
+    <div>
+      <h4>总和：{getNum}</h4>
+      <div>
+        <button onClick={() => setCount(count + 1)}>+1</button>
+        <input value={val} onChange={(event) => setValue(event.target.value)} />
+      </div>
+    </div>
+  );
+};
+
+export default MemoComp;
+```
+
+3. useCallback：
++ 把内联回调函数以及依赖项数组作为参数传入useCallback，它将返回该回调函数的memoized版本，该回调函数只会在某个依赖项更新时才会调用
+
+```js
+import React, { useCallback, useState, memo } from "react";
+
+const MemoComp = () => {
+  const [count, setCount] = useState(1);
+  const [val, setValue] = useState("");
+
+  const getNum = useCallback(() => {
+    return Array.from({ length: count * 100 }, (v, i) => i).reduce(
+      (a, b) => a + b
+    );
+  }, [count]);
+
+  return (
+    <div>
+      <Child getNum={getNum} />
+      <div>
+        <button onClick={() => setCount(count + 1)}>+1</button>
+        <input value={val} onChange={(event) => setValue(event.target.value)} />
+      </div>
+    </div>
+  );
+};
+
+const Child = React.memo(function ({ getNum }) {
+  console.log("子组件渲染了")
+  return <h4>总和：{getNum()}</h4>;
+});
+
+export default MemoComp;
+```
+
+---
+
+### useMemo和useCallback的区别
+#### 相同点
+1. useMemo和useCallback参数相同，第一个参数是函数，第二个参数是依赖项的数组
+2. useMemo和useCallback都可以根据依赖项是否变化来决定是否重新计算
+3. 第二个参数中放入你的依赖参数，为[]就只渲染一次，后面都不会渲染
+
+#### 不同点
+1. useMemo将调用fn函数并返回计算结果，一般用在高开销的计算
+2. useCallback将返回fn函数而不调用它,一般用在子组件冗余的更新.
++ 有一个父组件包含子组件，子组件接收一个函数作为props，通常而言，如果父组件更新了，子组件也会执行更新，但是大多数场景下，更新是没有必要的，我们可以借助useCallback来返回函数，然后把这个函数作为props传递给子组件，这样子组件就会避免不必要的更新
+
+```js
+import React, { useCallback, useEffect, useState, useMemo } from "react";
+
+const MemoComp = () => {
+  const [count, setCount] = useState(1);
+  const [val, setValue] = useState("");
+
+  const getNum = useCallback(() => {
+    return Array.from({ length: count * 100 }, (v, i) => i).reduce(
+      (a, b) => a + b
+    );
+  }, [count]);
+
+  return (
+    <div>
+      <Child getNum={getNum} />
+      <div>
+        <button onClick={() => setCount(count + 1)}>+1</button>
+        <input value={val} onChange={(event) => setValue(event.target.value)} />
+      </div>
+    </div>
+  );
+};
+
+const Child = React.memo(function ({ getNum }) {
+  console.log("子组件渲染了")
+  return <h4>总和：{getNum()}</h4>;
+});
+
+export default MemoComp;
+```
+
+---
+
+### useEffect和useLayoutEffect的区别
+1. useEffect是异步执行的，而useLayoutEffect是同步执行的
+2. useEffect的执行时机是浏览器完成渲染之后，而useLayoutEffect的执行时机是浏览器把内容真正渲染到界面之前，和componentDidMount等价
+3. [参考链接](https://zhuanlan.zhihu.com/p/348701319)
+
+---
+
+### 说说虚拟DOM
+虚拟DOM通过模拟真实DOM的树结构，收集大量DOM操作，通过diff算法对真实DOM进行最小化修改，减少浏览器重排、提升加载速度，达到优化网站性能的作用
+
+---
+
+### 什么是CRA以及它的好处
+create-react-app CLI工具允许你快速创建和运行React应用程序，无需配置步骤。它包含了我们建立一个React应用程序所需要的一切。
+
+---
+
+### 挂载过程中的生命周期顺序是什么
++ `constructor`
++ `static getDerivedStateFromProps()`
++ `render()`
++ `componentDidMount()`
+
+---
+
+### React16中，即将废弃的生命周期有哪些
++ `componentWillMount`
++ `componentWillReceiveProps`
++ `componentWillUpdate`
+
+---
+
+### getDerivedStateFromProps的作用是什么？
+
+1.将传入的props映射到state上面，是为了替代componentWillReceiveProps而存在的
+```js
+static getDerivedStateFromProps(nextProps, prevState){
+  const { type } = nextProps;
+
+  // 当传入的type发生变化时，更新state
+  if(type !== prevState){
+    return {
+      type
+    }
+  }
+
+  // 否则 对state不做任何操作
+  return null
+}
+```
+2.为什么是静态方法
+静态函数的特点是，它不属于任何一个实例，因此，它内部的this指向并不是组件的本身，用户不能通过this.xxx去访问。
+这样的设计，能够使得`getDerivedStateFromProps`变成一个纯函数，逻辑也相对比较简单，防止实例不安全的访问
+
+---
+
+### ES6 class类的静态方法有什么作用
+1. 定义：类的静态的方法前面一般会加个static关键词，来声明它是个静态方法。静态方法通过实例不能访问到，只能直接通过类去访问
+2. 作用：一般只有Array、String等原生类才会使用静态方法 自己写的组件我是没想到使用场景 就拿Array.isArray()来说 如果是Array的原型方法就没必要判断了 因为使用的肯定是Array的实例
