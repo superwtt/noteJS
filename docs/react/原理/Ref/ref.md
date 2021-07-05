@@ -63,3 +63,78 @@ export function createRef(): RefObject {
 #### 解析
 
 1. `createRef`方法就是返回了一个对象`{current:xxx}`
+
+---
+
+### useRef的实现
+```js
+// mount时
+function mountRef(initialValue){
+  // 获取当前useRef hook
+  const hook = mountWorkInProgressHook();
+  // 创建ref
+  const ref = {current: initialValue};
+  hook.memorizedState = ref;
+  return ref
+}
+
+// update时
+function update(initialValue){
+  // 获取当前useRef hook
+  const hook = updateWorkInProgressHook();
+  // 返回保存的数据
+  return hook.memorizedState
+}
+
+```
+
+可见，`useRef`仅仅是返回一个包含current属性的对象
+
+---
+
+### ref的工作流程
+1.对于FunctionComponent，useRef负责创建并返回对应的ref
+2.对于赋值了ref属性的HostComponent与ClassComponent，会在render阶段经历赋值Ref effectTag，在commit阶段执行对应ref操作
+
+---
+
+### createRef和useRef的区别
+createRef每次渲染都会返回一个新的引用，而useRef每次都会返回相同的引用
+```js
+const RefComp = ()=>{
+  const [renderIndex,setRenderIndex] = React.useState(1)
+  const refFromUseRef = React.useRef();
+  const refFromCreateRef = React.createRef();
+
+  // 每次渲染都是相同的引用
+  console.log(refFromUseRef);
+  
+  // 每次渲染都会创建新的引用
+  console.log(refFromCreateRef);
+
+  if(!refFromUseRef.current){
+      refFromUseRef.current = renderIndex
+  }
+
+  if(!refFromCreateRef.current){
+      refFromCreateRef.current = renderIndex
+  }
+
+  return (
+      <>
+       <p>Current render index: {renderIndex}</p>
+       <p>
+           <b>refFromUseRef</b> value: {refFromUseRef.current}
+       </p>
+       <p>
+           <b>refFromCreateRef</b> value:{refFromCreateRef.current}
+       </p>
+       <button onClick={()=>setRenderIndex(prev=>prev+1)}>
+          Cause re-render
+       </button>
+      </>
+  )
+}
+
+export default RefComp
+```
