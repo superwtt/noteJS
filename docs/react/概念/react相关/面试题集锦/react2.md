@@ -238,7 +238,7 @@ class Bar extends React.Component {
 + 事件处理函数触发的错误，因为错误边界处理的是render中的错误，而事件处理函数不是发生在render的过程中
 + 异步代码
 + 服务端渲染
-+ 自己产生的错误
++ ErrorBoundary组件本身的错误
 
 4. 与`try catch`对比
 `try catch`适用于处理事件函数中的异常
@@ -495,3 +495,114 @@ static getDerivedStateFromProps(nextProps, prevState){
 ### ES6 class类的静态方法有什么作用
 1. 定义：类的静态的方法前面一般会加个static关键词，来声明它是个静态方法。静态方法通过实例不能访问到，只能直接通过类去访问
 2. 作用：一般只有Array、String等原生类才会使用静态方法 自己写的组件我是没想到使用场景 就拿Array.isArray()来说 如果是Array的原型方法就没必要判断了 因为使用的肯定是Array的实例
+
+---
+
+### useImperativeHandle
+对于子组件，如果是class组件，我们可以通过ref获取类组件的实例，但是在子组件是函数组件的情况，我们不能通过ref直接获取函数组件的实例，使用useImperativeHandle配合forwardRef就能达到效果
+
+使用步骤：
+
+#### 使用forWardRef包裹子组件
+```js
+const Son = (props)=>{}
+
+const ForwarSon = forwardRef(Son); 
+
+class Index extends React.Component{
+  render(){
+    return (
+    <div>
+      <ForwarSon  />
+      <button onClick={this.handleClick.bind(this)}>操控子组件</button>
+    </div>
+  )
+  }
+}
+```
+
+---
+
+#### 获取子组件
+```js
+const Son = (props,ref)=>{
+  const inputRef = useRef(null);
+  const [inputValue, setInputValue] = useState("");
+  return (
+    <div>
+      <input placeholder="请输入内容" ref={inputRef} value={inputValue} />
+    </div>
+  );
+}
+
+class Index extends React.Component{
+  render() {
+    return (
+      <div style={{ marginTop: "50px" }}>
+        <ForwarSon ref={(node) => (this.inputRef = node)} />
+        <button onClick={this.handleClick.bind(this)}>操控子组件</button>
+      </div>
+    );
+  }
+}
+```
+
+---
+
+#### 子组件暴露给外部调用的方法
+```js
+const Son = (props, ref) => {
+  console.log(props);
+  const inputRef = useRef(null);
+  const [inputValue, setInputValue] = useState("");
+
+  useImperativeHandle(
+    ref,
+    () => {
+      const handleRefs = {
+        /* 声明方法用于聚焦input框 */
+        onFocus() {
+          inputRef.current.focus();
+        },
+        /* 声明方法用于改变input的值 */
+        onChangeValue(value) {
+          setInputValue(value);
+        },
+      };
+      return handleRefs;
+    },
+    []
+  );
+
+  return (
+    <div>
+      <input placeholder="请输入内容" ref={inputRef} value={inputValue} />
+    </div>
+  );
+};
+```
+
+---
+
+#### 父组件调用
+```js
+class Index extends React.Component {
+  handleClick() {
+    const { onFocus, onChangeValue } = this.inputRef;
+    onFocus();
+    onChangeValue("let us learn React!");
+  }
+  render() {
+    return (
+      <div style={{ marginTop: "50px" }}>
+        <ForwarSon ref={(node) => (this.inputRef = node)} />
+        <button onClick={this.handleClick.bind(this)}>操控子组件</button>
+      </div>
+    );
+  }
+}
+```
+
+---
+
+### 
