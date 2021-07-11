@@ -605,4 +605,23 @@ class Index extends React.Component {
 
 ---
 
-### 
+### shouldComponentUdate的原理
+
+### componentWillReceiveProps什么时候触发
+
+### getDerivedStateFromProps中的derivedState是什么意思
+
+### 为什么使用JSX
+
+#### 定义
+JSX是JavaScript的一种语法扩展，它和模板语言很接近，但是它充分具备JavaScript的能力
+
++ 通过JSX创建虚拟DOM
++ JSX语法糖允许前端开发者使用类似HTML标签语法来创建虚拟DOM，在降低学习成本的同时，也提升了研发效率与研发体验
+
+---
+
+#### React源码的JSX工作流程
++ JSX转换为`React.createElement`函数
++ `React.createElement`执行后返回`React.Element(虚拟DOM)`
++ 最后调用`ReactDOM.render()`转为真实DOM
