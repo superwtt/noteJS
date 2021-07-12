@@ -437,8 +437,8 @@ export default MemoComp;
 ---
 
 ### useEffect和useLayoutEffect的区别
-1. useEffect是异步执行的，而useLayoutEffect是同步执行的
-2. useEffect的执行时机是浏览器完成渲染之后，而useLayoutEffect的执行时机是浏览器把内容真正渲染到界面之前，和componentDidMount等价
+1. useEffect是渲染后异步执行的，而useLayoutEffect是渲染前同步执行的，会等到执行完再渲染上去
+2. useEffect的执行时机是浏览器完成渲染之后，而useLayoutEffect的执行时机是浏览器把内容真正渲染到界面之前，和componentDidMount等价，会同步调用，阻塞渲染
 3. [参考链接](https://zhuanlan.zhihu.com/p/348701319)
 
 ---
@@ -495,3 +495,85 @@ static getDerivedStateFromProps(nextProps, prevState){
 ### ES6 class类的静态方法有什么作用
 1. 定义：类的静态的方法前面一般会加个static关键词，来声明它是个静态方法。静态方法通过实例不能访问到，只能直接通过类去访问
 2. 作用：一般只有Array、String等原生类才会使用静态方法 自己写的组件我是没想到使用场景 就拿Array.isArray()来说 如果是Array的原型方法就没必要判断了 因为使用的肯定是Array的实例
+
+---
+
+### React中的dangerouslySetInnerHTML原理是什么?
+调用的是node.innerHTML方法，将传入的字符串解析为html显示
+
+---
+
+### 说说对React的理解，有哪些特性
+React是一个UI库，它的核心思想是声明式渲染和组件化开发，UI=F(data)，界面的呈现是由参数决定的
+
+开发者不再需要关心界面是如何渲染的，只要关心数据的生成和传递，这大大提高了开发者的效率，节省了开发时间
+
+其次，React设计的：
++ 使用类似HTML的JSX语法来描述视图
++ 通过虚拟DOM修改真实DOM
++ 通过setState修改数据
++ 在不同的生命周期阶段做不同的事情
++  源码底层对真实DOM事件进行封装，使用事件委托的方式来捕获DOM事件
+
+等一些列特性进一步简化真实DOM操作的复杂性
+
+---
+
+### React事件绑定的方式有哪些？
+#### 类组件
+1. render方法中bind：这种方法在组件每次render的时候，都会重新进行bind操作，影响性能
+```js
+class App extends React.Component{
+  handleClick(){}
+  render(){
+    return <div onClick={this.handleClick.bind(this)}>test</div>
+  }
+}
+```
+---
+
+2. render方法中使用箭头函数：通过ES6的上下文将this的指向绑定给当前组件，同样在每一次render的时候都会生成新的方法，影响性能
+```js
+class App extends React.Component{
+  handleClick(){}
+  render(){
+    return <div onClick={(e)=>this.handleClick(this)}>test</div>
+  }
+} 
+```
+
+---
+
+3. constructor中预先bind当前组件，可以避免在render中重复绑定
+```js
+class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.handleClick = this.handleClick.bind(this)
+  }
+}
+```
+
+---
+
+4. 定义阶段使用箭头函数绑定：能够避免在render操作中重复绑定，也简化了绑定流程
+```js
+class App extends React.Component{
+  handleClick=()=>{
+    // 
+  }
+}
+```
+
+#### 函数组件
+1. 箭头函数，在定义的时候，使用箭头函数的上下文特性，绑定this到当前组件
+```js
+const App = ()=>{
+  const handleClick = (e)=>{
+    console.log(e)
+  }
+}
+```
+
+#### 
+#### 

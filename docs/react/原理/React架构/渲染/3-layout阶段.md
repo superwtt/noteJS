@@ -254,11 +254,42 @@ function commitLifeCycles(
 
 1.`useLayoutEffect hook`从上一次更新的销毁函数调用到本次更新的回调函数调用是同步执行的。
 
-2. 而`useEffect`则需要先调度，在`layout阶段`完成后再异步执行
+2. 而`useEffect`则需要先调度，在`commit阶段`完成后再异步执行
 
-`componentWiiUnMount`会在`mutation阶段`执行。此时，`current Fiber树`还指向前一次更新的`Fiber树`，在生命周期钩子内获取的DOM还是更新前的
+`componentWillUnMount`会在`mutation阶段`执行。此时，`current Fiber树`还指向前一次更新的`Fiber树`，在生命周期钩子内获取的DOM还是更新前的
 
 `componentDidMount`和`componentDidUpdate`会在`layout阶段`执行。此时`current Fiber`树已经指向更新后的Fiber树，在生命周期钩子内获取的DOM就是更新后的
+
+```js
+// React17.0.1 packages->react-reconciler->src->ReactFiberWorkLoop.old.js
+function commitRootImpl(root, renderPriorityLevel) {
+  // 省略
+ if (
+   // 如果包含useEffect的effectTag
+    (finishedWork.subtreeFlags & PassiveMask) !== NoFlags ||
+    (finishedWork.flags & PassiveMask) !== NoFlags
+  ) {
+    if (!rootDoesHavePassiveEffects) {
+      rootDoesHavePassiveEffects = true;
+      scheduleCallback(NormalSchedulerPriority, () => {
+        flushPassiveEffects();// 在beforemutation阶段异步调度这个函数，这个方法会执行useEffect的回调函数
+        return null;
+      });
+    }
+  }
+ 
+  // 省略
+}
+
+```
++ `scheduleCallback`这个方法，会以一个优先级来异步执行`flushPassiveEffects`这个函数
++ <font style="color:blue">如果一个`FunctionComponent`存在`useEffect`，并且这个`useEffect`的回调函数需要被触发的情况下，那么这个`useEffect`会在commit阶段的`before mutation`阶段先以normal的优先级调度`flushPassiveEffects`，而整个commit阶段是同步执行的，所以`useEffect`回调函数的执行是在commit阶段完成以后再异步执行的</font>
++ `useLayoutEffect`在`commit`阶段的`mutation`阶段，会执行`useLayoutEffect`在上一次的销毁函数，而在`Layout`阶段，会先依次遍历并执行所有`useLayoutEffect`的`create`创建函数。所以`useEffectLayout`函数在`commit阶段`会先执行所有的销毁函数，接下来再依次执行所有的回调函数，这些步骤都是同步执行的
+
++ <font style="color:red">`useLayoutEffect`会在commit阶段的mutation阶段和layout阶段，依次同步执行销毁和创建函数；而`useEffect`会在before mutation阶段先异步调度`flushPassiveEffects`函数，在layout阶段注册销毁函数以及本次的回调函数，在整个commit阶段完成以后，flushPassiveEffects函数才会被执行，在这个函数内部，会遍历在layout阶段注册的销毁函数和回调函数，并依次执行</font>
++ 可以看到，`useLayoutEffect`会在mutation阶段和layout阶段依次同步执行销毁函数和回调函数，而`useEffect`会在整个commit阶段完成之后再异步执行所有的销毁函数和创建函数
+
+![](https://raw.githubusercontent.com/superwtt/MyFileRepository/main/image/React/useEffect和useLayoutEffect.png)
 
 
 ---
