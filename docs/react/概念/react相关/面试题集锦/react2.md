@@ -238,7 +238,7 @@ class Bar extends React.Component {
 + 事件处理函数触发的错误，因为错误边界处理的是render中的错误，而事件处理函数不是发生在render的过程中
 + 异步代码
 + 服务端渲染
-+ 自己产生的错误
++ ErrorBoundary组件本身的错误
 
 4. 与`try catch`对比
 `try catch`适用于处理事件函数中的异常
@@ -500,6 +500,8 @@ static getDerivedStateFromProps(nextProps, prevState){
 
 ### React中的dangerouslySetInnerHTML原理是什么?
 调用的是node.innerHTML方法，将传入的字符串解析为html显示
+### useImperativeHandle
+对于子组件，如果是class组件，我们可以通过ref获取类组件的实例，但是在子组件是函数组件的情况，我们不能通过ref直接获取函数组件的实例，使用useImperativeHandle配合forwardRef就能达到效果
 
 ---
 
@@ -577,3 +579,128 @@ const App = ()=>{
 
 #### 
 #### 
+
+使用步骤：
+
+#### 使用forWardRef包裹子组件
+```js
+const Son = (props)=>{}
+
+const ForwarSon = forwardRef(Son); 
+
+class Index extends React.Component{
+  render(){
+    return (
+    <div>
+      <ForwarSon  />
+      <button onClick={this.handleClick.bind(this)}>操控子组件</button>
+    </div>
+  )
+  }
+}
+```
+
+---
+
+#### 获取子组件
+```js
+const Son = (props,ref)=>{
+  const inputRef = useRef(null);
+  const [inputValue, setInputValue] = useState("");
+  return (
+    <div>
+      <input placeholder="请输入内容" ref={inputRef} value={inputValue} />
+    </div>
+  );
+}
+
+class Index extends React.Component{
+  render() {
+    return (
+      <div style={{ marginTop: "50px" }}>
+        <ForwarSon ref={(node) => (this.inputRef = node)} />
+        <button onClick={this.handleClick.bind(this)}>操控子组件</button>
+      </div>
+    );
+  }
+}
+```
+
+---
+
+#### 子组件暴露给外部调用的方法
+```js
+const Son = (props, ref) => {
+  console.log(props);
+  const inputRef = useRef(null);
+  const [inputValue, setInputValue] = useState("");
+
+  useImperativeHandle(
+    ref,
+    () => {
+      const handleRefs = {
+        /* 声明方法用于聚焦input框 */
+        onFocus() {
+          inputRef.current.focus();
+        },
+        /* 声明方法用于改变input的值 */
+        onChangeValue(value) {
+          setInputValue(value);
+        },
+      };
+      return handleRefs;
+    },
+    []
+  );
+
+  return (
+    <div>
+      <input placeholder="请输入内容" ref={inputRef} value={inputValue} />
+    </div>
+  );
+};
+```
+
+---
+
+#### 父组件调用
+```js
+class Index extends React.Component {
+  handleClick() {
+    const { onFocus, onChangeValue } = this.inputRef;
+    onFocus();
+    onChangeValue("let us learn React!");
+  }
+  render() {
+    return (
+      <div style={{ marginTop: "50px" }}>
+        <ForwarSon ref={(node) => (this.inputRef = node)} />
+        <button onClick={this.handleClick.bind(this)}>操控子组件</button>
+      </div>
+    );
+  }
+}
+```
+
+---
+
+### shouldComponentUdate的原理
+
+### componentWillReceiveProps什么时候触发
+
+### getDerivedStateFromProps中的derivedState是什么意思
+
+### 为什么使用JSX
+
+#### 定义
+JSX是JavaScript的一种语法扩展，它和模板语言很接近，但是它充分具备JavaScript的能力
+
++ 通过JSX创建虚拟DOM
++ JSX语法糖允许前端开发者使用类似HTML标签语法来创建虚拟DOM，在降低学习成本的同时，也提升了研发效率与研发体验
+
+---
+
+#### React源码的JSX工作流程
++ JSX转换为`React.createElement`函数
++ `React.createElement`执行后返回`React.Element(虚拟DOM)`
++ 最后调用`ReactDOM.render()`转为真实DOM

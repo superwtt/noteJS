@@ -232,7 +232,10 @@ module.exports = {
                 title: "一个小型的redux",
                 path: "/react/原理/Redux/一个小型的redux.html",
               },
-              
+              {
+                title: "手写React",
+                path: "/react/原理/React/手写React.html",
+              },
             ],
           },
         ],
