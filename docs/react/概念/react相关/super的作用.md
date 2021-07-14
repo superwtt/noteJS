@@ -260,6 +260,7 @@ class sub extends sup {
 为什么必须写`super(props)`?
 
 这个问题可以分两个层次：
+
 1.为什么调用`super()`
 + ES6 规定，子类的构造函数必须执行一次`super`函数
 + 为什么必须执行一次`super`函数？

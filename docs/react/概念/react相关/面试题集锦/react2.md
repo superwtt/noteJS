@@ -77,6 +77,61 @@ b1.show === b2.show // true
 
 ---
 
+### 函数组件和类组件本质的区别
+```js
+// setState
+class SetStateComp extends React.Component{
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      num:0
+    }
+  }
+
+  handleClick=()=>{
+    for(let i=0;i<5;i++){
+      setTimeout(()=>{
+        this.setState({
+          num++
+        })
+      },1000)
+    }
+  }
+
+  render(){
+    return (
+      <button onClick={this.handleClick}>num++</button>
+    )
+  }
+}
+
+// useState
+const UseStateComp = ()=>{
+  const [num,setNumber] = useState(0);
+  
+  const handleClick=()=>{
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        setNumber(num + 1);
+        console.log(num);
+      }, 1000);
+    }
+  }
+  return (
+    <button onClick={handleClick}>num++</button>
+  )
+}
+```
+
++ `setState`打印结果是1 2 3 4 5，`useState`打印结果是0 0 0 0 0
++ class组件是有状态的组件，`setState`用来记录当前组件的状态。由于setState没有在React正常的函数上下文执行，批量更新的条件被破坏，所以才分别打印出1 2 3 4 5
++ 函数组件是无状态组件，没有一个状态去保存这些信息，每一次函数上下文执行，所有变量、常量都需要重新声明，执行完毕，再被垃圾机制回收。所以无论setTimeout执行多少次，num=0都不会变，之后setNumber执行，函数组件重新执行之后，num才变化
++ 所以，对于class组件，我们只需要实例化一次，实例中保存了组件的state等状态。对于每一次更新只需要调用render方法就可以，但是在function组件中，每一次更新都是一次新的函数执行，为了保存一些状态，执行一些副作用钩子，react-hooks应运而生，去帮助记录组件的状态，处理一些额外的副作用
++ PS：加了setTimeout延迟执行才能体现出来是否有状态记录的区别 否则两者执行结果都一样 模拟不出来
+
+---
+
 ### useState和setState有什么不同？
 
 ---
@@ -500,6 +555,9 @@ static getDerivedStateFromProps(nextProps, prevState){
 
 ### React中的dangerouslySetInnerHTML原理是什么?
 调用的是node.innerHTML方法，将传入的字符串解析为html显示
+
+---
+
 ### useImperativeHandle
 对于子组件，如果是class组件，我们可以通过ref获取类组件的实例，但是在子组件是函数组件的情况，我们不能通过ref直接获取函数组件的实例，使用useImperativeHandle配合forwardRef就能达到效果
 
@@ -685,10 +743,116 @@ class Index extends React.Component {
 ---
 
 ### shouldComponentUdate的原理
+#### 产生原因
+父组件的状态改变时，子组件也会重新render
+```js
+// Parent类
+class Parent extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      parentInfo:'parent',
+      sonInfo:'son'
+    }
+  }
+  changeParentInfo(){
+    this.setState({
+      parentInfo:`改变了父组件state:${Date.now()}`
+    })
+  }
+  render(){
+    console.log('Parent Component render')
+    return (
+      <div>
+        <p>{this.state.parentInfo}</p>
+        <button onClick={this.changeParentInfo}>改变父组件state</button>
+        <br/>
+        <Child son={this.state.sonInfo}></Child>
+      </div>
+    )
+  }
+}
 
-### componentWillReceiveProps什么时候触发
+// Child类
+class Child extends Component{
+  constructor(props){
+    super(props)
+    this.state = {}
+  }
+  render(){
+    console.log('Child Component render')
+    return (
+      <div>
+        这是Child子组件：
+        <p>{this.props.son}</p>
+      </div>
+    )
+  }
+}
+```
+点击按钮，改变ParentInfo的值，我们会发现控制台不仅仅会输出Parent Component render，同时会输出Child Component render。
+
+我们只是改变了父组件的state值，却导致子组件也会重新渲染
+
+---
+
+#### shouldComponentUpdate
+React提供了生命周期函数`shouldComponentUpdate`，根据它的返回值true/false，判断React组件的输出是否受当前state或者props更改的影响。默认行为是state每次发生变化组件都会重新渲染
+
+`shouldComponentUpdate`方法接收两个参数`nextProps`和`nextState`，可以将`this.props`与`nextProps`以及`this.state`与`nextState`进行比较，并返回true/false告知React是否需要重新执行render
+
+---
+
+#### 本例中的解决办法
+在Child组件中，手动添加shouldComponentUpdate的判断
+```js
+class Child extends React.Component{
+  shouldComponentUpdate(nextProps,nextState){
+    return this.props.son !== nextProps.son
+  }
+}
+```
+
+---
+
+#### 注意点
+如果从Parent组件向Child组件传递的是基本类型数据，可以直接对比；如果传递的是引用类型的数据，我们就需要在`shouldComponentUpdate`中进行深层次的比较，但这种方式是非常影响效率且损害性能的。所以我们在传递的数据是基本类型时，可以考虑使用这种方式：`this.props.son !== nextProps.son`
+
+---
+
+#### 针对引用类型的数据
+1.immutable提供了简洁高效的判断数据是否变化的方法，只需===和is比较就能知道是否需要执行render()，而这个操作几乎0成本，所以极大的提高了性能。
+```js
+// Child组件中
+import { is } from "immutable"
+
+shouldComponentUpdate(nextProps={},nextState={})=>{
+  return !(this.props === nextProps || is(this.props, nextProps)) ||
+      !(this.state === nextState || is(this.state, nextState))
+}
+```
+---
+
+2.针对函数组件，使用React.memo，仅检查props变更。如果函数组件被React.memo包裹，当给定相同props的情况下渲染结果相同，那么就可以将其包裹在React.memo中调用
+
+---
 
 ### getDerivedStateFromProps中的derivedState是什么意思
+```js
+static getDerivedStateFromProps(nextProps,prevState){
+  const { type } = nextProps;
+
+  // 当传入的type发生变化的时候 更新state
+  if(type!==prevState.type){
+    return {
+      type
+    }
+  }
+  // 否则 对state不进行任何操作
+  return null;
+}
+```
+`derivedState`的意思就是，state是根据props是否改变来决定自身的值
 
 ### 为什么使用JSX
 
@@ -704,3 +868,6 @@ JSX是JavaScript的一种语法扩展，它和模板语言很接近，但是它�
 + JSX转换为`React.createElement`函数
 + `React.createElement`执行后返回`React.Element(虚拟DOM)`
 + 最后调用`ReactDOM.render()`转为真实DOM
+
+---
+

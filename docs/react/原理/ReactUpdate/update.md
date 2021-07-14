@@ -1,3 +1,26 @@
+### 更新的大概流程
+触发状态更新
+
+    |
+    |
+    v
+
+    ？
+
+    |
+    |
+    v
+render阶段开始
+
+    |
+    |
+    v    
+commit阶段开始
+
+其中，？都做了什么呢？
+
+---
+
 ### 触发更新
 1. 在React中，有如下方法可以触发状态更新：
 + `ReactDOM.render`—— HostRoot
@@ -42,63 +65,30 @@ const update: Update<*> = {
 
 ---
 
-### Update的计算
+### 完整流程
 
+触发状态更新
 
+    |
+    |
+    v
 
+创建Update对象 -> 将update对象塞到updateQueue这个环状链表中 -> 从触发更新的fiber找到整个应用的根节点rootFiber -> 调度整个应用的根节点，判断是同步更新还是异步更新，同步的调用performSyncWorkOnRoot，异步的调用performConcurrentWorkOnRoot
 
+    |
+    |
+    v
+render阶段开始，在render阶段的reconciler，也就是diff算法中，根据update对象返回对应的state，再用对应的state判断本次是否需要更新视图，如果需要更新视图就会被打上effectTag
 
+    |
+    |
+    v    
+commit阶段开始，标记了effectTag的fiber就会执行对应的视图更新
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+---
 
 ### 更新流程
-<!-- ![](https://raw.githubusercontent.com/superwtt/MyFileRepository/main/image/React/更新流程.png) -->
+![](https://raw.githubusercontent.com/superwtt/MyFileRepository/main/image/React/更新流程.png)
 
 ---
 

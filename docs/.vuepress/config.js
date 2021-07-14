@@ -71,6 +71,10 @@ module.exports = {
                     title: "useEffect",
                     path: "/react/概念/Hooks/useEffect.html",
                   },
+                  {
+                    title: "useMemo和useCallback",
+                    path: "/react/概念/Hooks/useMemo和useCallback.html",
+                  },
                 ],
               },
               {
@@ -234,9 +238,19 @@ module.exports = {
               },
               {
                 title: "手写React",
-                path: "/react/原理/React/手写React.html",
+                path: "/react/原理/React/React的实现.html",
               },
             ],
+          },
+        ],
+      },
+      {
+        title: "Vue",
+        collapsable: false,
+        children: [
+          {
+            title: "路由",
+            path: "/vue/概念/路由.html",
           },
         ],
       },
