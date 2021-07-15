@@ -92,7 +92,4 @@ commit阶段开始，标记了effectTag的fiber就会执行对应的视图更新
 
 ---
 
-### 参考链接
-https://zhuanlan.zhihu.com/p/35801438
-
 
