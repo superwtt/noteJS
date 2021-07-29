@@ -261,6 +261,10 @@ module.exports = {
             path: "/vue/原理/Vue的响应式原理.html",
             children:[
               {
+                title: "new Vue发生了什么",
+                path: "/vue/原理/new Vue发生了什么.html",
+              },
+              {
                 title: "Vue的响应式原理",
                 path: "/vue/原理/Vue的响应式原理.html",
               },
@@ -283,10 +287,6 @@ module.exports = {
               {
                 title: "MVVM模式的理解",
                 path: "/vue/原理/MVVM模式的理解.html",
-              },
-              {
-                title: "new Vue发生了什么",
-                path: "/vue/原理/new Vue发生了什么.html",
               },
               {
                 title: "this.$message的实现",
