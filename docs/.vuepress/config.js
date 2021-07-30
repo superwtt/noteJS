@@ -265,16 +265,16 @@ module.exports = {
                 path: "/vue/原理/new Vue发生了什么.html",
               },
               {
+                title: "computed原理",
+                path: "/vue/原理/computed原理.html",
+              },
+              {
                 title: "Vue的响应式原理",
                 path: "/vue/原理/Vue的响应式原理.html",
               },
               {
                 title: "Axios的原理",
                 path: "/vue/原理/Axios的原理.html",
-              },
-              {
-                title: "computed原理",
-                path: "/vue/原理/computed原理.html",
               },
               {
                 title: "filter",
