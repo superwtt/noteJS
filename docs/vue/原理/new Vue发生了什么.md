@@ -165,7 +165,7 @@ export function initMixin (Vue: Class<Component>) {
 + 执行`beforeMount`生命周期钩子
 + 开始执行挂载，最核心的2个方法是`vm._render`和vm._update
   + _render：把实例渲染成一个虚拟VNode，通过执行createElement方法并返回VNode，它是一个虚拟node
-  + _update：首次渲染、数据更新的时候调用，把VNode渲染成真实的DOM
+  + _update：首次渲染、数据更新的时候调用，把VNode渲染成真实的DOM，_update的核心就是调用vm._patch_方法，实例化一个组件的时候，其整个过程就是遍历VNode Tree递归创建了一个完整的DOM树并插入到Body上
 + 执行`mounted`生命周期钩子
 
 ```js
@@ -241,4 +241,5 @@ function mountComponent (
 
 ### 参考链接
 [人人都能读懂的Vue源码系列](https://segmentfault.com/u/zhenren/articles)
+
 [ustbhuangyi](https://www.kancloud.cn/chenmk/web-knowledges/1224544)
