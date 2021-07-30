@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>React中的生命周期有哪些 |  </title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/noteJS/favicon.ico">
+    <meta name="description" content="Note JS -- JS学习之路">
+    
+    <link rel="preload" href="/noteJS/assets/css/0.styles.0d031968.css" as="style"><link rel="preload" href="/noteJS/assets/js/app.de2a3deb.js" as="script"><link rel="preload" href="/noteJS/assets/js/2.2934c4fe.js" as="script"><link rel="preload" href="/noteJS/assets/js/43.c1a5d84d.js" as="script"><link rel="prefetch" href="/noteJS/assets/js/10.8e524a1e.js"><link rel="prefetch" href="/noteJS/assets/js/11.dcb84f9a.js"><link rel="prefetch" href="/noteJS/assets/js/12.4de8778d.js"><link rel="prefetch" href="/noteJS/assets/js/13.bd9bcf2d.js"><link rel="prefetch" href="/noteJS/assets/js/14.50ed1385.js"><link rel="prefetch" href="/noteJS/assets/js/15.0ed8ba18.js"><link rel="prefetch" href="/noteJS/assets/js/16.2e910ce8.js"><link rel="prefetch" href="/noteJS/assets/js/17.21aed239.js"><link rel="prefetch" href="/noteJS/assets/js/18.84744a74.js"><link rel="prefetch" href="/noteJS/assets/js/19.0fc2c486.js"><link rel="prefetch" href="/noteJS/assets/js/20.c370a068.js"><link rel="prefetch" href="/noteJS/assets/js/21.5d2a08f1.js"><link rel="prefetch" href="/noteJS/assets/js/22.42ea0523.js"><link rel="prefetch" href="/noteJS/assets/js/23.813f6b30.js"><link rel="prefetch" href="/noteJS/assets/js/24.c30b9b88.js"><link rel="prefetch" href="/noteJS/assets/js/25.a5ecffdb.js"><link rel="prefetch" href="/noteJS/assets/js/26.0754764b.js"><link rel="prefetch" href="/noteJS/assets/js/27.9e4f2b8a.js"><link rel="prefetch" href="/noteJS/assets/js/28.0a022191.js"><link rel="prefetch" href="/noteJS/assets/js/29.5e83a8fa.js"><link rel="prefetch" href="/noteJS/assets/js/3.c617dfcf.js"><link rel="prefetch" href="/noteJS/assets/js/30.8cd70775.js"><link rel="prefetch" href="/noteJS/assets/js/31.5718a351.js"><link rel="prefetch" href="/noteJS/assets/js/32.2058391d.js"><link rel="prefetch" href="/noteJS/assets/js/33.c6bc4ee0.js"><link rel="prefetch" href="/noteJS/assets/js/34.a40b12e8.js"><link rel="prefetch" href="/noteJS/assets/js/35.3fd41c8e.js"><link rel="prefetch" href="/noteJS/assets/js/36.df089351.js"><link rel="prefetch" href="/noteJS/assets/js/37.055e5992.js"><link rel="prefetch" href="/noteJS/assets/js/38.00fe710c.js"><link rel="prefetch" href="/noteJS/assets/js/39.f9fc11b3.js"><link rel="prefetch" href="/noteJS/assets/js/4.9fe58479.js"><link rel="prefetch" href="/noteJS/assets/js/40.88f25272.js"><link rel="prefetch" href="/noteJS/assets/js/41.1ab5d532.js"><link rel="prefetch" href="/noteJS/assets/js/42.0ab644db.js"><link rel="prefetch" href="/noteJS/assets/js/44.98073da6.js"><link rel="prefetch" href="/noteJS/assets/js/45.48734a8e.js"><link rel="prefetch" href="/noteJS/assets/js/46.19ba576c.js"><link rel="prefetch" href="/noteJS/assets/js/47.c4de71d3.js"><link rel="prefetch" href="/noteJS/assets/js/48.ebf2c63a.js"><link rel="prefetch" href="/noteJS/assets/js/49.27fd8d82.js"><link rel="prefetch" href="/noteJS/assets/js/5.8d2e2d22.js"><link rel="prefetch" href="/noteJS/assets/js/50.940cdb48.js"><link rel="prefetch" href="/noteJS/assets/js/51.9a095aae.js"><link rel="prefetch" href="/noteJS/assets/js/52.c6b81ec4.js"><link rel="prefetch" href="/noteJS/assets/js/53.d7c0279b.js"><link rel="prefetch" href="/noteJS/assets/js/54.23d1abad.js"><link rel="prefetch" href="/noteJS/assets/js/55.92fa5778.js"><link rel="prefetch" href="/noteJS/assets/js/56.1ace6869.js"><link rel="prefetch" href="/noteJS/assets/js/57.bb182db6.js"><link rel="prefetch" href="/noteJS/assets/js/58.a08f9bf6.js"><link rel="prefetch" href="/noteJS/assets/js/59.e6fc9ea1.js"><link rel="prefetch" href="/noteJS/assets/js/6.b8bffdec.js"><link rel="prefetch" href="/noteJS/assets/js/60.a0b8004d.js"><link rel="prefetch" href="/noteJS/assets/js/61.dff6eb29.js"><link rel="prefetch" href="/noteJS/assets/js/62.49688772.js"><link rel="prefetch" href="/noteJS/assets/js/63.426e5dee.js"><link rel="prefetch" href="/noteJS/assets/js/64.ace960d7.js"><link rel="prefetch" href="/noteJS/assets/js/65.c2fc6a89.js"><link rel="prefetch" href="/noteJS/assets/js/66.8e2447bd.js"><link rel="prefetch" href="/noteJS/assets/js/67.ed8d7d55.js"><link rel="prefetch" href="/noteJS/assets/js/68.ba7edcf0.js"><link rel="prefetch" href="/noteJS/assets/js/69.0f07e049.js"><link rel="prefetch" href="/noteJS/assets/js/7.4d0320f7.js"><link rel="prefetch" href="/noteJS/assets/js/8.9d5f9767.js"><link rel="prefetch" href="/noteJS/assets/js/9.1818743a.js">
+    <link rel="stylesheet" href="/noteJS/assets/css/0.styles.0d031968.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/noteJS/" class="home-link router-link-active"><img src="/noteJS/assets/img/logo.jpg" alt=" " class="logo"> <span class="site-name can-hide"> </span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="https://github.com/superwtt" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="https://github.com/superwtt" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Introduction</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/noteJS/introduction/introduction.html" class="sidebar-link">简介</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>React</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>概念篇</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading open"><span>原理篇</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/noteJS/react/原理/ReactElement/ReactElement.html" class="sidebar-link">ReactElement</a></li><li><a href="/noteJS/react/原理/Children/children.html" class="sidebar-link">Children原理</a></li><li><section class="sidebar-group collapsable is-sub-group depth-2"><p class="sidebar-heading"><span>React渲染原理</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/noteJS/react/原理/ReactUpdate/update.html" class="sidebar-link">React更新原理</a></li><li><section class="sidebar-group collapsable is-sub-group depth-2"><p class="sidebar-heading"><span>React架构</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/noteJS/react/原理/Diff/diff.html" class="sidebar-link">Diff算法</a></li><li><a href="/noteJS/react/原理/生命周期/生命周期.html" class="active sidebar-link">生命周期原理</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/noteJS/react/原理/Hooks/hooks.html" class="sidebar-link">Hooks原理</a></li><li><a href="/noteJS/react/原理/Ref/ref.html" class="sidebar-link">Ref</a></li><li><a href="/noteJS/react/原理/Context/context.html" class="sidebar-link">Context</a></li><li><a href="/noteJS/react/原理/State/state.html" class="sidebar-link">SetState</a></li><li><section class="sidebar-group collapsable is-sub-group depth-2"><p class="sidebar-heading"><span>路由</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/noteJS/react/原理/Redux/redux.html" class="sidebar-link">Redux原理</a></li><li><a href="/noteJS/react/原理/Redux/一个小型的redux.html" class="sidebar-link">一个小型的redux</a></li><li><a href="/noteJS/react/原理/React/React的实现.html" class="sidebar-link">手写React</a></li></ul></section></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Vue</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/noteJS/vue/概念/路由.html" class="sidebar-link">路由</a></li><li><a href="/noteJS/vue/概念/面试题集锦/vue1.html" class="sidebar-link">面试题集锦</a></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><a href="/noteJS/vue/原理/Vue的响应式原理.html" class="sidebar-heading clickable"><span>原理</span> <span class="arrow right"></span></a> <!----></section></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>General</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/noteJS/general/前端如何更好的实现接口的缓存与更新.html" class="sidebar-link">前端如何更好的实现接口的缓存与更新</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h3 id="react中的生命周期有哪些"><a href="#react中的生命周期有哪些" class="header-anchor">#</a> React中的生命周期有哪些</h3> <ol><li>定义：生命周期是指在某一时刻，组件会自动调用执行的函数</li> <li>组件的执行时期：</li></ol> <ul><li><p>挂载阶段mount：只有组件在第一次被挂载在页面的时候执行</p> <ul><li><code>constructor</code>：初始化state对象，给自定义方法绑定this</li> <li><s><code>componentWillMount</code></s>：组件即将被挂载到页面的时候执行，在<code>render</code>之前，还没有挂载DOM</li> <li><code>componentDidMount</code>：组件被挂载到页面之后执行，在<code>render</code>之后，已经挂载DOM</li></ul></li> <li><p>更新阶段update：组件更新的时候执行</p> <ul><li><code>shouldComponentUpdate</code>：组件更新之前执行，需要返回true/false，返回true表示需要更新组件，返回false表示不需要更新组件</li> <li><s><code>componentWillUpdate</code></s>：组件更新之前执行，在<code>shouldComponentUpdate</code>之后执行，且<code>shouldComponentUpdate</code>返回true才执行，否则不执行</li> <li><code>render</code></li> <li><code>getSnapshotBeforeUpdate</code>：在render之后，componentDidUpdate之前调用</li> <li><code>componentDidUpdate</code>：组件更新完成之后执行</li> <li><s><code>componentWillReceiveProps</code></s>：当一个组件从父组件接收了参数，只要这个父组件的render函数被重新执行了，这个生命周期才执行</li></ul></li> <li><p>卸载阶段unmount</p> <ul><li><code>componentWillUnmount</code>：当这个组件即将从页面中剔除的时候执行</li></ul></li></ul> <p><img src="https://raw.githubusercontent.com/superwtt/MyFileRepository/main/image/React/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt=""></p> <hr> <h3 id="执行次数"><a href="#执行次数" class="header-anchor">#</a> 执行次数</h3> <ol><li>只执行一次：<code>constructor</code>、<code>componentWillMount</code>、<code>componentDidMount</code></li> <li>执行多次：<code>render</code>、子组件的<code>componentWillReceiveProps</code>、<code>componentWillUpdate</code>、<code>componentDidUpdate</code></li> <li>有条件的执行：<code>componentWillUmmount</code>组件离开时才执行</li> <li>不执行的：根组件的<code>componentWillReceiveProps</code>，因为根组件没有父组件传值给根组件了</li></ol> <hr> <h3 id="源码解析"><a href="#源码解析" class="header-anchor">#</a> 源码解析</h3> <p>① 源码目录：<code>react/packages/react-reconciler/src/ReactFiberBeginWork.js</code></p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">beginWork</span><span class="token punctuation">(</span>
+  <span class="token parameter">current<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  workInProgress<span class="token operator">:</span> Fiber<span class="token punctuation">,</span>
+  renderLanes<span class="token operator">:</span> Lanes</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">// update时：如果current存在可能存在优化路径，可以复用current（即上一次更新的Fiber节点）</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>current <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...省略</span>
+
+    <span class="token comment">// 复用current</span>
+    <span class="token keyword">return</span> <span class="token function">bailoutOnAlreadyFinishedWork</span><span class="token punctuation">(</span>
+      current<span class="token punctuation">,</span>
+      workInProgress<span class="token punctuation">,</span>
+      renderLanes<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    didReceiveUpdate <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// mount时：根据tag不同，创建不同的子Fiber节点</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>workInProgress<span class="token punctuation">.</span>tag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> IndeterminateComponent<span class="token operator">:</span> 
+      <span class="token comment">// ...省略</span>
+    <span class="token keyword">case</span> LazyComponent<span class="token operator">:</span> 
+      <span class="token comment">// ...省略</span>
+    <span class="token keyword">case</span> FunctionComponent<span class="token operator">:</span> 
+      <span class="token comment">// ...省略</span>
+    <span class="token keyword">case</span> ClassComponent<span class="token operator">:</span> 
+      <span class="token keyword">const</span> Component <span class="token operator">=</span> workInProgress<span class="token punctuation">.</span>type<span class="token punctuation">;</span>
+      <span class="token keyword">const</span> unresolvedProps <span class="token operator">=</span> workInProgress<span class="token punctuation">.</span>pendingProps<span class="token punctuation">;</span>
+      <span class="token keyword">const</span> resolvedProps <span class="token operator">=</span>
+        workInProgress<span class="token punctuation">.</span>elementType <span class="token operator">===</span> Component
+          <span class="token operator">?</span> unresolvedProps
+          <span class="token operator">:</span> <span class="token function">resolveDefaultProps</span><span class="token punctuation">(</span>Component<span class="token punctuation">,</span> unresolvedProps<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> <span class="token function">updateClassComponent</span><span class="token punctuation">(</span>
+        current<span class="token punctuation">,</span>
+        workInProgress<span class="token punctuation">,</span>
+        Component<span class="token punctuation">,</span>
+        resolvedProps<span class="token punctuation">,</span>
+        renderExpirationTime<span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> HostRoot<span class="token operator">:</span>
+      <span class="token comment">// ...省略</span>
+    <span class="token keyword">case</span> HostComponent<span class="token operator">:</span>
+      <span class="token comment">// ...省略</span>
+    <span class="token keyword">case</span> HostText<span class="token operator">:</span>
+      <span class="token comment">// ...省略</span>
+    <span class="token comment">// ...省略其他类型</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ul><li><code>beginWork</code>的工作是根据当前Fiber节点，创建子的Fiber节点</li> <li>根据不同的tag，创建不同的子Fiber节点</li></ul> <p>② 以<code>ClassComponent</code>为例，生命周期就发生在<code>ClassComponent</code>的<code>updateClassComponent</code></p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">updateClassComponent</span><span class="token punctuation">(</span>
+  <span class="token parameter">current<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  workInProgress<span class="token operator">:</span> Fiber<span class="token punctuation">,</span>
+  Component<span class="token operator">:</span> any<span class="token punctuation">,</span>
+  nextProps<span class="token punctuation">,</span>
+  renderExpirationTime<span class="token operator">:</span> ExpirationTime<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> hasContext<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isLegacyContextProvider</span><span class="token punctuation">(</span>Component<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    hasContext <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token function">pushLegacyContextProvider</span><span class="token punctuation">(</span>workInProgress<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    hasContext <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">prepareToReadContext</span><span class="token punctuation">(</span>workInProgress<span class="token punctuation">,</span> renderExpirationTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> instance <span class="token operator">=</span> workInProgress<span class="token punctuation">.</span>stateNode<span class="token punctuation">;</span>
+  <span class="token keyword">let</span> shouldUpdate<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>instance <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  
+    <span class="token comment">// 打印constructor的地方</span>
+    <span class="token function">constructClassInstance</span><span class="token punctuation">(</span>
+      workInProgress<span class="token punctuation">,</span>
+      Component<span class="token punctuation">,</span>
+      nextProps<span class="token punctuation">,</span>
+      renderExpirationTime<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 打印componentWillMount的地方</span>
+    <span class="token function">mountClassInstance</span><span class="token punctuation">(</span>
+      workInProgress<span class="token punctuation">,</span>
+      Component<span class="token punctuation">,</span>
+      nextProps<span class="token punctuation">,</span>
+      renderExpirationTime<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    shouldUpdate <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>current <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// mount的时候，cueernt = null</span>
+    <span class="token comment">// In a resume, we'll already have an instance we can reuse.</span>
+    shouldUpdate <span class="token operator">=</span> <span class="token function">resumeMountClassInstance</span><span class="token punctuation">(</span>
+      workInProgress<span class="token punctuation">,</span>
+      Component<span class="token punctuation">,</span>
+      nextProps<span class="token punctuation">,</span>
+      renderExpirationTime<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    shouldUpdate <span class="token operator">=</span> <span class="token function">updateClassInstance</span><span class="token punctuation">(</span>
+      current<span class="token punctuation">,</span>
+      workInProgress<span class="token punctuation">,</span>
+      Component<span class="token punctuation">,</span>
+      nextProps<span class="token punctuation">,</span>
+      renderExpirationTime<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// 打印render的地方</span>
+  <span class="token keyword">const</span> nextUnitOfWork <span class="token operator">=</span> <span class="token function">finishClassComponent</span><span class="token punctuation">(</span>
+    current<span class="token punctuation">,</span>
+    workInProgress<span class="token punctuation">,</span>
+    Component<span class="token punctuation">,</span>
+    shouldUpdate<span class="token punctuation">,</span>
+    hasContext<span class="token punctuation">,</span>
+    renderExpirationTime<span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> nextUnitOfWork<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>③ 进入到<code>mountClassInstance</code>会发现调用生命周期的地方：<code>callComponentWillMount</code>，调用了新的生命周期<code>getDerivedStateFromProps</code></p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">mountClassInstance</span><span class="token punctuation">(</span>
+  <span class="token parameter">workInProgress<span class="token operator">:</span> Fiber<span class="token punctuation">,</span>
+  ctor<span class="token operator">:</span> any<span class="token punctuation">,</span>
+  newProps<span class="token operator">:</span> any<span class="token punctuation">,</span>
+  renderExpirationTime<span class="token operator">:</span> ExpirationTime<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">const</span> instance <span class="token operator">=</span> workInProgress<span class="token punctuation">.</span>stateNode<span class="token punctuation">;</span>
+  instance<span class="token punctuation">.</span>props <span class="token operator">=</span> newProps<span class="token punctuation">;</span>
+  instance<span class="token punctuation">.</span>state <span class="token operator">=</span> workInProgress<span class="token punctuation">.</span>memoizedState<span class="token punctuation">;</span>
+  instance<span class="token punctuation">.</span>refs <span class="token operator">=</span> emptyRefsObject<span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> contextType <span class="token operator">=</span> ctor<span class="token punctuation">.</span>contextType<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> contextType <span class="token operator">===</span> <span class="token string">'object'</span> <span class="token operator">&amp;&amp;</span> contextType <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    instance<span class="token punctuation">.</span>context <span class="token operator">=</span> <span class="token function">readContext</span><span class="token punctuation">(</span>contextType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> unmaskedContext <span class="token operator">=</span> <span class="token function">getUnmaskedContext</span><span class="token punctuation">(</span>workInProgress<span class="token punctuation">,</span> ctor<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    instance<span class="token punctuation">.</span>context <span class="token operator">=</span> <span class="token function">getMaskedContext</span><span class="token punctuation">(</span>workInProgress<span class="token punctuation">,</span> unmaskedContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">let</span> updateQueue <span class="token operator">=</span> workInProgress<span class="token punctuation">.</span>updateQueue<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>updateQueue <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">processUpdateQueue</span><span class="token punctuation">(</span>
+      workInProgress<span class="token punctuation">,</span>
+      updateQueue<span class="token punctuation">,</span>
+      newProps<span class="token punctuation">,</span>
+      instance<span class="token punctuation">,</span>
+      renderExpirationTime<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    instance<span class="token punctuation">.</span>state <span class="token operator">=</span> workInProgress<span class="token punctuation">.</span>memoizedState<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">const</span> getDerivedStateFromProps <span class="token operator">=</span> ctor<span class="token punctuation">.</span>getDerivedStateFromProps<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> getDerivedStateFromProps <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">applyDerivedStateFromProps</span><span class="token punctuation">(</span>
+      workInProgress<span class="token punctuation">,</span>
+      ctor<span class="token punctuation">,</span>
+      getDerivedStateFromProps<span class="token punctuation">,</span>
+      newProps<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    instance<span class="token punctuation">.</span>state <span class="token operator">=</span> workInProgress<span class="token punctuation">.</span>memoizedState<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// In order to support react-lifecycles-compat polyfilled components,</span>
+  <span class="token comment">// Unsafe lifecycles should not be invoked for components using the new APIs.</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>
+    <span class="token keyword">typeof</span> ctor<span class="token punctuation">.</span>getDerivedStateFromProps <span class="token operator">!==</span> <span class="token string">'function'</span> <span class="token operator">&amp;&amp;</span>
+    <span class="token keyword">typeof</span> instance<span class="token punctuation">.</span>getSnapshotBeforeUpdate <span class="token operator">!==</span> <span class="token string">'function'</span> <span class="token operator">&amp;&amp;</span>
+    <span class="token punctuation">(</span><span class="token keyword">typeof</span> instance<span class="token punctuation">.</span>UNSAFE_componentWillMount <span class="token operator">===</span> <span class="token string">'function'</span> <span class="token operator">||</span>
+      <span class="token keyword">typeof</span> instance<span class="token punctuation">.</span>componentWillMount <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">callComponentWillMount</span><span class="token punctuation">(</span>workInProgress<span class="token punctuation">,</span> instance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// If we had additional state updates during this life-cycle, let's</span>
+    <span class="token comment">// process them now.</span>
+    updateQueue <span class="token operator">=</span> workInProgress<span class="token punctuation">.</span>updateQueue<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>updateQueue <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">processUpdateQueue</span><span class="token punctuation">(</span>
+        workInProgress<span class="token punctuation">,</span>
+        updateQueue<span class="token punctuation">,</span>
+        newProps<span class="token punctuation">,</span>
+        instance<span class="token punctuation">,</span>
+        renderExpirationTime<span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      instance<span class="token punctuation">.</span>state <span class="token operator">=</span> workInProgress<span class="token punctuation">.</span>memoizedState<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> instance<span class="token punctuation">.</span>componentDidMount <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    workInProgress<span class="token punctuation">.</span>effectTag <span class="token operator">|=</span> Update<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>④ 进入<code>callComponentWillMount</code>，调用了<code>componentWillMount</code>周期</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">callComponentWillMount</span><span class="token punctuation">(</span><span class="token parameter">workInProgress<span class="token punctuation">,</span> instance</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">startPhaseTimer</span><span class="token punctuation">(</span>workInProgress<span class="token punctuation">,</span> <span class="token string">'componentWillMount'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> oldState <span class="token operator">=</span> instance<span class="token punctuation">.</span>state<span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> instance<span class="token punctuation">.</span>componentWillMount <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    instance<span class="token punctuation">.</span><span class="token function">componentWillMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> instance<span class="token punctuation">.</span>UNSAFE_componentWillMount <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    instance<span class="token punctuation">.</span><span class="token function">UNSAFE_componentWillMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">stopPhaseTimer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>oldState <span class="token operator">!==</span> instance<span class="token punctuation">.</span>state<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    classComponentUpdater<span class="token punctuation">.</span><span class="token function">enqueueReplaceState</span><span class="token punctuation">(</span>instance<span class="token punctuation">,</span> instance<span class="token punctuation">.</span>state<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>⑤ 对于我们常见的组件类型，如<code>FunctionComponent/ClassComponent/HostComponent</code>，最终都会进入<code>reconcilerChildren</code>方法，这个方法究竟做了什么呢？</p> <ul><li>对于<code>mount</code>的组件，它会创建新的<code>子fiber节点</code></li> <li>对于<code>update</code>组件，它会将当前组件与该组件在上次更新时对应的fiber节点比较，也就是俗称的diff算法，将比较的结果生成新的fiber节点</li></ul> <hr> <p>⑥ <code>completeWork</code>阶段会执行didMount类的生命周期函数，commit阶段可以分为三个子阶段：</p> <ul><li>before mutation（执行DOM操作前）：调用getSnapshotBeforeUpdate、 调度useEffect</li> <li>mutation阶段（执行DOM操作）</li> <li>layout阶段（执行DOM操作后）</li></ul> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">completeRoot</span><span class="token punctuation">(</span>
+  <span class="token comment">// ...</span>
+  <span class="token function">runWithPriority</span><span class="token punctuation">(</span>ImmediatePriority<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">commitRoot</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> finishedWork<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>⑦ 提交<code>commitLifeCycles</code></p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">commitLifeCycles</span><span class="token punctuation">(</span>
+  <span class="token parameter">finishedRoot<span class="token operator">:</span> FiberRoot<span class="token punctuation">,</span>
+  current<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  finishedWork<span class="token operator">:</span> Fiber<span class="token punctuation">,</span>
+  committedExpirationTime<span class="token operator">:</span> ExpirationTime<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>finishedWork<span class="token punctuation">.</span>tag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> FunctionComponent<span class="token operator">:</span>
+    <span class="token keyword">case</span> ForwardRef<span class="token operator">:</span>
+    <span class="token keyword">case</span> SimpleMemoComponent<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token function">commitHookEffectList</span><span class="token punctuation">(</span>UnmountLayout<span class="token punctuation">,</span> MountLayout<span class="token punctuation">,</span> finishedWork<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> ClassComponent<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> instance <span class="token operator">=</span> finishedWork<span class="token punctuation">.</span>stateNode<span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>finishedWork<span class="token punctuation">.</span>effectTag <span class="token operator">&amp;</span> Update<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>current <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">startPhaseTimer</span><span class="token punctuation">(</span>finishedWork<span class="token punctuation">,</span> <span class="token string">'componentDidMount'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          instance<span class="token punctuation">.</span><span class="token function">componentDidMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 执行componentDidMount方法</span>
+          <span class="token function">stopPhaseTimer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token keyword">const</span> prevProps <span class="token operator">=</span>
+            finishedWork<span class="token punctuation">.</span>elementType <span class="token operator">===</span> finishedWork<span class="token punctuation">.</span>type
+              <span class="token operator">?</span> current<span class="token punctuation">.</span>memoizedProps
+              <span class="token operator">:</span> <span class="token function">resolveDefaultProps</span><span class="token punctuation">(</span>finishedWork<span class="token punctuation">.</span>type<span class="token punctuation">,</span> current<span class="token punctuation">.</span>memoizedProps<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">const</span> prevState <span class="token operator">=</span> current<span class="token punctuation">.</span>memoizedState<span class="token punctuation">;</span>
+          <span class="token function">startPhaseTimer</span><span class="token punctuation">(</span>finishedWork<span class="token punctuation">,</span> <span class="token string">'componentDidUpdate'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+          instance<span class="token punctuation">.</span><span class="token function">componentDidUpdate</span><span class="token punctuation">(</span>
+            prevProps<span class="token punctuation">,</span>
+            prevState<span class="token punctuation">,</span>
+            instance<span class="token punctuation">.</span>__reactInternalSnapshotBeforeUpdate<span class="token punctuation">,</span>
+          <span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token function">stopPhaseTimer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">const</span> updateQueue <span class="token operator">=</span> finishedWork<span class="token punctuation">.</span>updateQueue<span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>updateQueue <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>
+            finishedWork<span class="token punctuation">.</span>type <span class="token operator">===</span> finishedWork<span class="token punctuation">.</span>elementType <span class="token operator">&amp;&amp;</span>
+            <span class="token operator">!</span>didWarnAboutReassigningProps
+          <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">warning</span><span class="token punctuation">(</span>
+              instance<span class="token punctuation">.</span>props <span class="token operator">===</span> finishedWork<span class="token punctuation">.</span>memoizedProps<span class="token punctuation">,</span>
+              <span class="token string">'Expected %s props to match memoized props before '</span> <span class="token operator">+</span>
+                <span class="token string">'processing the update queue. '</span> <span class="token operator">+</span>
+                <span class="token string">'This might either be because of a bug in React, or because '</span> <span class="token operator">+</span>
+                <span class="token string">'a component reassigns its own `this.props`. '</span> <span class="token operator">+</span>
+                <span class="token string">'Please file an issue.'</span><span class="token punctuation">,</span>
+              <span class="token function">getComponentName</span><span class="token punctuation">(</span>finishedWork<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token string">'instance'</span><span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">warning</span><span class="token punctuation">(</span>
+              instance<span class="token punctuation">.</span>state <span class="token operator">===</span> finishedWork<span class="token punctuation">.</span>memoizedState<span class="token punctuation">,</span>
+              <span class="token string">'Expected %s state to match memoized state before '</span> <span class="token operator">+</span>
+                <span class="token string">'processing the update queue. '</span> <span class="token operator">+</span>
+                <span class="token string">'This might either be because of a bug in React, or because '</span> <span class="token operator">+</span>
+                <span class="token string">'a component reassigns its own `this.props`. '</span> <span class="token operator">+</span>
+                <span class="token string">'Please file an issue.'</span><span class="token punctuation">,</span>
+              <span class="token function">getComponentName</span><span class="token punctuation">(</span>finishedWork<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token string">'instance'</span><span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// We could update instance props and state here,</span>
+        <span class="token comment">// but instead we rely on them being set during last render.</span>
+        <span class="token comment">// TODO: revisit this when we implement resuming.</span>
+        <span class="token function">commitUpdateQueue</span><span class="token punctuation">(</span>
+          finishedWork<span class="token punctuation">,</span>
+          updateQueue<span class="token punctuation">,</span>
+          instance<span class="token punctuation">,</span>
+          committedExpirationTime<span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> HostRoot<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> updateQueue <span class="token operator">=</span> finishedWork<span class="token punctuation">.</span>updateQueue<span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>updateQueue <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> instance <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>finishedWork<span class="token punctuation">.</span>child <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">switch</span> <span class="token punctuation">(</span>finishedWork<span class="token punctuation">.</span>child<span class="token punctuation">.</span>tag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> HostComponent<span class="token operator">:</span>
+              instance <span class="token operator">=</span> <span class="token function">getPublicInstance</span><span class="token punctuation">(</span>finishedWork<span class="token punctuation">.</span>child<span class="token punctuation">.</span>stateNode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> ClassComponent<span class="token operator">:</span>
+              instance <span class="token operator">=</span> finishedWork<span class="token punctuation">.</span>child<span class="token punctuation">.</span>stateNode<span class="token punctuation">;</span>
+              <span class="token keyword">break</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">commitUpdateQueue</span><span class="token punctuation">(</span>
+          finishedWork<span class="token punctuation">,</span>
+          updateQueue<span class="token punctuation">,</span>
+          instance<span class="token punctuation">,</span>
+          committedExpirationTime<span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> HostComponent<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> instance<span class="token operator">:</span> Instance <span class="token operator">=</span> finishedWork<span class="token punctuation">.</span>stateNode<span class="token punctuation">;</span>
+
+      <span class="token comment">// Renderers may schedule work to be done after host components are mounted</span>
+      <span class="token comment">// (eg DOM renderer may schedule auto-focus for inputs and form controls).</span>
+      <span class="token comment">// These effects should only be committed when components are first mounted,</span>
+      <span class="token comment">// aka when there is no current/alternate.</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>current <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> finishedWork<span class="token punctuation">.</span>effectTag <span class="token operator">&amp;</span> Update<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> type <span class="token operator">=</span> finishedWork<span class="token punctuation">.</span>type<span class="token punctuation">;</span>
+        <span class="token keyword">const</span> props <span class="token operator">=</span> finishedWork<span class="token punctuation">.</span>memoizedProps<span class="token punctuation">;</span>
+        <span class="token function">commitMount</span><span class="token punctuation">(</span>instance<span class="token punctuation">,</span> type<span class="token punctuation">,</span> props<span class="token punctuation">,</span> finishedWork<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> HostText<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">// We have no life-cycles associated with text.</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> HostPortal<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">// We have no life-cycles associated with portals.</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> Profiler<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>enableProfilerTimer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> onRender <span class="token operator">=</span> finishedWork<span class="token punctuation">.</span>memoizedProps<span class="token punctuation">.</span>onRender<span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>enableSchedulerTracing<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">onRender</span><span class="token punctuation">(</span>
+            finishedWork<span class="token punctuation">.</span>memoizedProps<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
+            current <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">?</span> <span class="token string">'mount'</span> <span class="token operator">:</span> <span class="token string">'update'</span><span class="token punctuation">,</span>
+            finishedWork<span class="token punctuation">.</span>actualDuration<span class="token punctuation">,</span>
+            finishedWork<span class="token punctuation">.</span>treeBaseDuration<span class="token punctuation">,</span>
+            finishedWork<span class="token punctuation">.</span>actualStartTime<span class="token punctuation">,</span>
+            <span class="token function">getCommitTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            finishedRoot<span class="token punctuation">.</span>memoizedInteractions<span class="token punctuation">,</span>
+          <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token function">onRender</span><span class="token punctuation">(</span>
+            finishedWork<span class="token punctuation">.</span>memoizedProps<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
+            current <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">?</span> <span class="token string">'mount'</span> <span class="token operator">:</span> <span class="token string">'update'</span><span class="token punctuation">,</span>
+            finishedWork<span class="token punctuation">.</span>actualDuration<span class="token punctuation">,</span>
+            finishedWork<span class="token punctuation">.</span>treeBaseDuration<span class="token punctuation">,</span>
+            finishedWork<span class="token punctuation">.</span>actualStartTime<span class="token punctuation">,</span>
+            <span class="token function">getCommitTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> SuspenseComponent<span class="token operator">:</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> IncompleteClassComponent<span class="token operator">:</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token function">invariant</span><span class="token punctuation">(</span>
+        <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token string">'This unit of work tag should not have side-effects. This error is '</span> <span class="token operator">+</span>
+          <span class="token string">'likely caused by a bug in React. Please file an issue.'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><hr> <h3 id="废弃的以及新增的生命周期"><a href="#废弃的以及新增的生命周期" class="header-anchor">#</a> 废弃的以及新增的生命周期</h3> <p>1.废弃的</p> <ul><li><code>componentWillMount</code></li> <li><code>componentWillReceiveProps</code></li> <li><code>componentWillUpdate</code></li></ul> <p>2.新增的</p> <ul><li><code>static getDerivedStateFromProps</code>：当我们接收到新的属性想去修改我们的state，可以在这个生命周期中完成</li> <li><code>getSnapshotBeforeUpdate</code></li></ul> <hr> <h3 id="异步渲染的两个阶段"><a href="#异步渲染的两个阶段" class="header-anchor">#</a> 异步渲染的两个阶段</h3> <p>1.<code>Reconciliation阶段</code></p> <ul><li><code>componentWillMount</code></li> <li><code>componentWillReceiveProps</code></li> <li><code>shouldComponentUpdate</code></li> <li><code>componentWillUpdate</code></li></ul> <p>2.<code>Commit</code>阶段</p> <ul><li><code>componentDidMount</code></li> <li><code>componentDidUpdate</code></li> <li><code>componentWillUnMount</code></li></ul> <hr> <p>https://developer.aliyun.com/article/72330</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/noteJS/react/原理/Diff/diff.html" class="prev">
+        Diff算法
+      </a></span> <span class="next"><a href="/noteJS/react/原理/Hooks/hooks.html">
+        Hooks原理
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/noteJS/assets/js/app.de2a3deb.js" defer></script><script src="/noteJS/assets/js/2.2934c4fe.js" defer></script><script src="/noteJS/assets/js/43.c1a5d84d.js" defer></script>
+  </body>
+</html>
