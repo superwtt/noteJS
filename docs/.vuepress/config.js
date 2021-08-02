@@ -265,8 +265,18 @@ module.exports = {
                 path: "/vue/原理/new Vue发生了什么.html",
               },
               {
-                title: "computed原理",
+                title: "computed",
                 path: "/vue/原理/computed原理.html",
+                children:[
+                  {
+                    title: "computed初始化流程",
+                    path: "/vue/原理/computed初始化流程.html",
+                  },
+                  {
+                    title: "computed缓存原理",
+                    path: "/vue/原理/computed缓存原理.html",
+                  },
+                ]
               },
               {
                 title: "Vue的响应式原理",

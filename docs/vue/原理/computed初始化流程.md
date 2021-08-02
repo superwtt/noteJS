@@ -210,57 +210,6 @@ sharedPropertyDefinition = {
 + <font style="color:blue">到这里computed的初始化就做好了，等待模板中访问</font>
 
 ---
- 
-### 计算属性的缓存原理
-
-#### 初始化过程
-① `initComputed`的时候，会为每一个计算属性实例化一个watcher，
-
-watcher的初始状态中，有一个代表是否需要重新求值的属性dirty，dirty的默认值是true，也就是首次在模板中访问计算属性（`watcher.evaluate()`）的时候，肯定是要求值的.
-```js
-{
-    deps: [],
-    dirty: true,
-    getter: ƒ sum(),
-    lazy: true,
-    value: undefined
-}
-```
----
-
-② `watcher.evaluate()`先求值，然后把dirty置为false，下次没有特殊情况再次读取计算属性的时候，发现dirty是false，直接就会返回watcher.value这个值,
-
-<font style="color:blue">这其实就是计算属性缓存的概念</font>
-
-```js
-evaluate () {
-  // 调用 get 函数求值
-  this.value = this.get()
-  // 把 dirty 标记为 false
-  this.dirty = false
-}
-```
----
-
-#### 更新时
-初次访问时，dirty默认为true
-https://cloud.tencent.com/developer/article/1614090
-```js
-<div>{{sum}}</div>
-
-<script>
-  data:{
-    count: 1
-  },
-  computed:{
-    sum(){
-      return this.count + 1 
-    } 
-  }
-</script>
-```
-
----
 
 ### 流程总结
 1. 当组件初始化的时候，`computed`和data`会分别建立各自的响应系统，`Observer`遍历data/computed中的每个属性设置get/set数据拦截
@@ -276,7 +225,19 @@ https://cloud.tencent.com/developer/article/1614090
 ---
 
 ### 对比监听属性watch
+1. 计算属性computed
++ 支持缓存，computed属性值会默认走缓存，只有依赖数据发生改变，才会重新进行计算
++ 不支持异步，当computed内有异步操作时无效，无法监听数据的变化
++ 当多个属性影响一个属性的时候，建议使用computed
 
+2.监听属性watch
++ 不支持缓存，数据变化，直接会触发相应的操作
++ watch支持异步
++ 监听的属性必须是data声明过的属性或者父组件传递过来的props里的数据
++ 有两个参数可供额外调用：
+  + immediate：组件加载立即触发回调函数执行
+  + deep：深度监听
++ 当一个值变化会引起一系列操作的，建议使用监听属性   
 ---
 ### 参考链接
 [浅谈 Vue 中 computed 实现原理](https://mp.weixin.qq.com/s/igkif-J_BHd1q5mZ7TewCw)
