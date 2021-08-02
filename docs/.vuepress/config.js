@@ -266,7 +266,7 @@ module.exports = {
               },
               {
                 title: "computed",
-                path: "/vue/原理/computed原理.html",
+                path: "/vue/原理/computed初始化流程.html",
                 children:[
                   {
                     title: "computed初始化流程",
@@ -279,12 +279,16 @@ module.exports = {
                 ]
               },
               {
-                title: "Vue的响应式原理",
-                path: "/vue/原理/Vue的响应式原理.html",
-              },
-              {
                 title: "Axios的原理",
                 path: "/vue/原理/Axios的原理.html",
+              },
+              {
+                title: "this.$nextTick原理",
+                path: "/vue/原理/this.$nextTick原理.html",
+              },
+              {
+                title: "Vue的响应式原理",
+                path: "/vue/原理/Vue的响应式原理.html",
               },
               {
                 title: "filter",
@@ -301,10 +305,6 @@ module.exports = {
               {
                 title: "this.$message的实现",
                 path: "/vue/原理/this.$message的实现.html",
-              },
-              {
-                title: "this.$nextTick原理",
-                path: "/vue/原理/this.$nextTick原理.html",
               },
               {
                 title: "v-mode的原理",
