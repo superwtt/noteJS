@@ -159,7 +159,9 @@ export function initMixin (Vue: Class<Component>) {
   }
   ```
 ---
-3. 挂载：`vm.$mount(vm.$options.el)`，Vue原型对象上定义$mount内部实际是定义`mountComponent`。`mountComponent`做了四件事：
+3. 挂载：`vm.$mount(vm.$options.el)`，Vue原型对象上定义$mount内部实际是定义`mountComponent`。
+
+`mountComponent`做了四件事：
 
 + 判断是否有template属性，如果有template属性却没有使用compiler版本，那警告必须使用Vue加compiler的版本
 + 执行`beforeMount`生命周期钩子
