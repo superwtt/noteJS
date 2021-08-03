@@ -47,6 +47,17 @@ source.cancel('主动取消请求')
 ---
 
 ### Axios特点
+axios的github地址上明确写了axios的特点是：
++ 浏览器发起`XMLHttpRequests`请求
++ 从nodejs发起http请求
++ 支持`PromiseAPI`
++ 拦截请求和响应
++ 转换请求和响应数据
++ 取消请求
++ 自动转换json数据
++ 客户端支持自动防止XSRF
+
+我们就着这些特点来分析
 
 ---
 
@@ -97,7 +108,7 @@ source.cancel('主动取消请求')
 
 
 
-
+https://www.cnblogs.com/mfyngu/p/13912132.html
 https://juejin.cn/post/6844904199302430733
 https://cloud.tencent.com/developer/article/1794288
-https://lq782655835.github.io/blogs/project/axios-usage-theory.html
+https://lq782655835.github.io/blogs/project/
