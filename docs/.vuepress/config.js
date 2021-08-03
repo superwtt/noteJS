@@ -307,8 +307,8 @@ module.exports = {
                 path: "/vue/原理/this.$message的实现.html",
               },
               {
-                title: "v-mode的原理",
-                path: "/vue/原理/v-mode的原理.html",
+                title: "v-model的原理",
+                path: "/vue/原理/v-model的原理.html",
               },
               {
                 title: "Vue的生命周期",
