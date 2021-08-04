@@ -201,7 +201,7 @@ function nextTick(cb?: Function, ctx?: Object) {
 ```
 
 6. timerFunc 是根据浏览器兼容性创建的一个异步方法，它执行完成之后，会调用 flushSchedulerQueue 方法进行具体的 DOM 更新，那么微任务队列中就会放置一个DOM更新任务
-7. 当执行到this.$nextTick时，才会再将回调放到微任务队列中，根据先进先出原则，this.$nextTick的回调肯定是在DOM更新之后执行
+7. 当执行到this.$nextTick时，才会再将我们的cb回调传递进来放到微任务队列中，根据先进先出原则，this.$nextTick的回调肯定是在DOM更新之后执行
 
 ---
 
