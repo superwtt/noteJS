@@ -140,9 +140,72 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
 ### 总结
 1. 应用初始化时，会初始化异步更新和nextTick相关的逻辑
 2. 其中最重要的有一个timerFunc函数，决定了我们的异步是微任务还是宏任务，谷歌环境下，肯定就是微任务。
-3. 当数据更新时，会立马在微任务队列中放置一个DOM更新任务，当执行到this.$nextTick时，才会再将回调放到微任务队列中，根据先进先出原则，this.$nextTick的回调肯定是在DOM更新之后执行
+3. 当数据更新 会触发它的setter，从而通知Dep去调用相关的watch对象，进而触发watch的update函数进行视图更新
+```js
+update () {
+  /* istanbul ignore else */
+  if (this.lazy) {
+    this.dirty = true
+  } else if (this.sync) {
+    // 同步则执行run直接渲染视图
+    this.run()
+  } else {
+    //异步推送到观察者队列中，下一个tick时调用。
+    queueWatcher(this)
+  }
+}
+```
+4. Vue 在调用 Watcher 更新视图时，并不会直接进行更新，而是把需要更新的 Watcher 加入到 Queue 队列里，然后把具体的更新方法 flushSchedulerQueue 传给 nextTick进行调用，<font stye="color:red">从这里我们知道，Vue的DOM更新也会调用nextTick方法</font>
+```js
+export function queueWatcher (watcher: Watcher) {
+  /*获取watcher的id*/
+  const id = watcher.id
+  /*检验id是否存在，已经存在则直接跳过，不存在则标记哈希表has，用于下次检验*/
+  if (has[id] == null) {
+    has[id] = true
+    if (!flushing) {
+      queue.push(watcher)
+    } else {
+      // if already flushing, splice the watcher based on its id
+      // if already past its id, it will be run next immediately.
+      let i = queue.length - 1
+      while (i >= 0 && queue[i].id > watcher.id) {
+        i--
+      }
+      queue.splice(Math.max(i, index) + 1, 0, watcher)
+    }
+    // queue the flush
+    if (!waiting) {
+      waiting = true
+      nextTick(flushSchedulerQueue)
+    }
+  }
+}
+```
+
+5. nextTick 函数非常简单，它只是将传入的 flushSchedulerQueue 添加到 callbacks 数组中，然后执行了 timerFunc 方法。
+```js
+const callbacks = [];
+let timerFunc;
+
+function nextTick(cb?: Function, ctx?: Object) {
+  let _resolve;
+  // 1.将传入的 flushSchedulerQueue 方法添加到回调数组
+  callbacks.push(() => {
+    cb.call(ctx);
+  });
+  // 2.执行异步任务
+  // 此方法会根据浏览器兼容性，选用不同的异步策略
+  timerFunc();
+}
+```
+
+6. timerFunc 是根据浏览器兼容性创建的一个异步方法，它执行完成之后，会调用 flushSchedulerQueue 方法进行具体的 DOM 更新，那么微任务队列中就会放置一个DOM更新任务
+7. 当执行到this.$nextTick时，才会再将回调放到微任务队列中，根据先进先出原则，this.$nextTick的回调肯定是在DOM更新之后执行
 
 ---
 
 ### 参考链接
 [Good](https://segmentfault.com/a/1190000023649590)
+
+[segmentfault](https://segmentfault.com/a/1190000018328525)

@@ -291,10 +291,6 @@ module.exports = {
                 path: "/vue/原理/Vue的响应式原理.html",
               },
               {
-                title: "filter",
-                path: "/vue/原理/filter.html",
-              },
-              {
                 title: "KeepAlive",
                 path: "/vue/原理/KeepAlive.html",
               },
