@@ -303,10 +303,6 @@ module.exports = {
                 path: "/vue/原理/this.$message的实现.html",
               },
               {
-                title: "v-model的原理",
-                path: "/vue/原理/v-model的原理.html",
-              },
-              {
                 title: "Vue的生命周期",
                 path: "/vue/原理/Vue的生命周期.html",
               },
