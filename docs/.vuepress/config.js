@@ -279,6 +279,20 @@ module.exports = {
                 ]
               },
               {
+                title: "watch",
+                path: "/vue/原理/watch的初始化流程.html",
+                children:[
+                  {
+                    title: "watch的初始化流程",
+                    path: "/vue/原理/watch的初始化流程.html",
+                  },
+                  {
+                    title: "watch的原理",
+                    path: "/vue/原理/watch的原理.html",
+                  },
+                ]
+              },
+              {
                 title: "Axios的原理",
                 path: "/vue/原理/Axios的原理.html",
               },
