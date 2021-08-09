@@ -30,7 +30,7 @@ watch:{
   }
 }
 
-// 数组声明
+// 第四种 数组声明
 methods:{
   handle(newVal,oldVal){...}
 },
@@ -45,7 +45,7 @@ watch:{
 ---
 
 ### initWatch
-① `new Vue`实例化的时候，会调用`this._init`方法进行应用的初始化，包括了生命周期、事件、数据、属性、方法、执行生命周期等过程，其中数据的初始化方法initState包括了属性的初始化。
+① `new Vue`实例化的时候，会调用`this._init`方法进行应用的初始化，包括了生命周期、事件、数据、属性、方法、执行生命周期等过程，其中数据的初始化方法initState包括了监听属性watch的初始化。
 ```js
 export function initState (vm: Component) {
   vm._watchers = []
@@ -81,6 +81,7 @@ function initWatch (vm: Component, watch: Object) {
 }
 ```
 解析：
++ `initWatch`的主要工作就是调用`createWatcher`创建监听实例
 + 数组声明的watch有多个回调，需要循环创建监听
 + 其他方式直接创建
 
@@ -113,7 +114,7 @@ function createWatcher (
 解析：
 1. 对象声明的watch，从对象中取出对应回调
 2. 字符串声明的watch，直接取实例上的方法
-3. 监听属性的实现原理
+3. 返回Vue实例上的$watch方法
 
 ---
 
@@ -147,7 +148,8 @@ Vue.prototype.$watch = function (
 }  
 ```
 解析：
-vm.$watch做了三件事
+vm.$watch做了三件事：
+
 + 设置标记位`options.user`为true，表明这是一个`user-watcher`
 + 给watch设置了`immediate`属性后，会将实例化后得到的值传入回调，并立即执行一次回调函数，这也是immediate的实现原理
 + 最后的返回值是一个方法，执行后可以取消对该监听属性的监听
@@ -175,7 +177,7 @@ class Watcher {
     if (typeof expOrFn === 'function') {  // 如果expOrFn是函数
       this.getter = expOrFn
     } else {
-      this.getter = parsePath(expOrFn)  // 如果是字符串对象路径形式，返回闭包函数 obj.a.b
+      this.getter = parsePath(expOrFn)  // 如果是字符串对象路径形式，返回闭包函数 obj.a.b.c，不仅仅是修改c的时候会触发回调，修改b、a以及obj同样会触发回调
     }
     ...
   }
@@ -187,7 +189,7 @@ class Watcher {
 
 ---
 
-⑥ 接下来进入`get()`方法
+⑥ 接下来`class Watcher`进入`get()`方法
 ```js
 get() {
   pushTarget(this)  // 将当前user-watcher实例赋值给Dep.target，读取时收集依赖
@@ -202,12 +204,23 @@ get() {
 // ...
 ```
 + `pushTarget`是将当前的用户Watcher即当前实例this挂到Dep.target上，在收集依赖的时候，找的就是Dep.target
-+ 然后调用`getter`函数，触发数据劫持，接着触发dep.depend收集依赖
++ 执行数据劫持get()调用的就是getter函数，接着触发dep.depend收集依赖 
 
 ---
 
 ⑦ 更新
 在更新时首先触发的是“数据劫持set”，调用 dep.notify 通知每一个 watcher 的 update 方法。
+```js
+update () {
+  if (this.lazy) { dirty置为true
+    this.dirty = true
+  } else if (this.sync) {
+    this.run()
+  } else {
+    queueWatcher(this)
+  }
+}
+```
 
 接着就走 queueWatcher 进行异步更新，这里先不讲异步更新。只需要知道它最后会调用的是 run 方法
 
@@ -237,8 +250,23 @@ if (this.deep) {
 + immediate的原理：给watch设置了`immediate`属性后，会将实例化后得到的值传入回调，并立即执行一次回调函数。
 + deep的原理：递归调用归获取每一项属性触发他们的“数据劫持get”收集依赖
 
++ 如果watch的属性，在data里是个对象，并且在data里面声明了自己的属性值：
+```js
+data(){
+  return {
+    obj:{
+      a:'123'
+    }
+  }
+}
+```
+那么在watch的初始化流程中，会递归obj的每一个属性，给他们加上监听，当obj自己的这些属性变化的时候，watch也能捕捉到
+
++ `initWatch` -> `createWatch` -> vm.$watch -> class Watcher让watch上被监听的属性具有数据劫持依赖收集和更新的能力
+
 ---
 
 ### 参考链接
 [掘金1](https://juejin.cn/post/6844903926819454983)
+
 [掘金2](https://juejin.cn/post/6844904201752068109)
