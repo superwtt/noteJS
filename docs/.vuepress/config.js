@@ -305,6 +305,10 @@ module.exports = {
                 path: "/vue/原理/Vue的响应式原理.html",
               },
               {
+                title: "Vue双向绑定原理",
+                path: "/vue/原理/Vue双向绑定原理.html",
+              },
+              {
                 title: "KeepAlive",
                 path: "/vue/原理/KeepAlive.html",
               },
