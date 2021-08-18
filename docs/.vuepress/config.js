@@ -21,6 +21,20 @@ module.exports = {
         children: [["/introduction/introduction.html", "简介"]],
       },
       {
+        title:"ES6",
+        collapsable: false,
+        children:[
+          {
+            title: "ES6构造函数语法糖：class类",
+            path: "/ES6/class类.html",
+          },
+          {
+            title: "ES6中的方法",
+            path: "/ES6/ES6中的方法.html",
+          },
+        ]
+      },
+      {
         title: "React",
         collapsable: false,
         children: [
@@ -324,6 +338,15 @@ module.exports = {
                 title: "Vue的生命周期",
                 path: "/vue/原理/Vue的生命周期.html",
               },
+              {
+                title: "ref的原理",
+                path: "/vue/原理/ref的原理.html",
+              },
+              {
+                title: "vue路由原理",
+                path: "/vue/原理/vue路由原理.html",
+              },
+              
             ]
           },
         ],

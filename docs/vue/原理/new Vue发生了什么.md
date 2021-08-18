@@ -3,6 +3,36 @@
 
 ---
 
+#### 0.new Vue的几种写法
+```js
+// 1.0
+new Vue({
+  el:"#app",
+  template:"<App />",
+  components:{App}
+})
+
+// 2.0
+new Vue({
+  template:"<App />",
+  components:{App},
+}).amount("#app")
+
+// 3.0 
+new Vue({
+  render:h=>h(App),
+}).amount("#app")
+
+// 4.0
+new Vue({
+  render:function(h){
+    return h(App)
+  }
+}).amount("#app")
+
+```
+---
+
 #### 1.从入口文件开始
 用vue-cli脚手架创建项目时，我们通常都会在页面的入口文件`main.js`中new一个Vue对象的实例
 ```js
