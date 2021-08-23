@@ -197,7 +197,7 @@ export function initMixin (Vue: Class<Component>) {
 + 执行`beforeMount`生命周期钩子
 + 开始执行挂载，最核心的2个方法是`vm._render`和vm._update
   + _render：把实例渲染成一个虚拟VNode，通过执行createElement方法并返回VNode，它是一个虚拟node
-  + _update：首次渲染、数据更新的时候调用，把VNode渲染成真实的DOM，_update的核心就是调用vm._patch_方法，实例化一个组件的时候，其整个过程就是遍历VNode Tree递归创建了一个完整的DOM树并插入到Body上
+  + _update：首次渲染、数据更新DOM的时候调用，把VNode渲染成真实的DOM，_update的核心就是调用vm._patch_方法，实例化一个组件的时候，其整个过程就是遍历VNode Tree递归创建了一个完整的DOM树并插入到Body上
 + 执行`mounted`生命周期钩子
 
 ```js
@@ -269,9 +269,109 @@ function mountComponent (
   return vm
 }
 ```
+① `vm._render`：用来把实例渲染成一个虚拟node，经过`_render`的流程，传进去的vue实例将会变成一个虚拟node节点。`vm_render`最终是通过执行`createElement`方法并返回的是vnode，它是一个虚拟Node即Virtual DOM
+
+---
+
+② `Virtual DOM`：Virtual DOM产生的前提是浏览器中DOM的操作是很昂贵的，当我们频繁地去做DOM的更新，会产生一定的性能问题。
+
+而Virtual DOM就是用一个原生的JS对象去描述一个DOM节点，所以它比创建一个DOM的代价要小很多。在Vue.js中，Virtual DOM是用VNode这么一个Class去描述。
+```js
+// 源码目录：src/core/vdom/vnode.js
+export default class VNode {
+  tag: string | void;
+  data: VNodeData | void;
+  children: ?Array<VNode>;
+  text: string | void;
+  elm: Node | void;
+  ns: string | void;
+  context: Component | void; // rendered in this component's scope
+  key: string | number | void;
+  componentOptions: VNodeComponentOptions | void;
+  componentInstance: Component | void; // component instance
+  parent: VNode | void; // component placeholder node
+
+  // strictly internal
+  raw: boolean; // contains raw HTML? (server only)
+  isStatic: boolean; // hoisted static node
+  isRootInsert: boolean; // necessary for enter transition check
+  isComment: boolean; // empty comment placeholder?
+  isCloned: boolean; // is a cloned node?
+  isOnce: boolean; // is a v-once node?
+  asyncFactory: Function | void; // async component factory function
+  asyncMeta: Object | void;
+  isAsyncPlaceholder: boolean;
+  ssrContext: Object | void;
+  fnContext: Component | void; // real context vm for functional nodes
+  fnOptions: ?ComponentOptions; // for SSR caching
+  fnScopeId: ?string; // functional scope id support
+
+  constructor (
+    tag?: string,
+    data?: VNodeData,
+    children?: ?Array<VNode>,
+    text?: string,
+    elm?: Node,
+    context?: Component,
+    componentOptions?: VNodeComponentOptions,
+    asyncFactory?: Function
+  ) {
+    this.tag = tag
+    this.data = data
+    this.children = children
+    this.text = text
+    this.elm = elm
+    this.ns = undefined
+    this.context = context
+    this.fnContext = undefined
+    this.fnOptions = undefined
+    this.fnScopeId = undefined
+    this.key = data && data.key
+    this.componentOptions = componentOptions
+    this.componentInstance = undefined
+    this.parent = undefined
+    this.raw = false
+    this.isStatic = false
+    this.isRootInsert = true
+    this.isComment = false
+    this.isCloned = false
+    this.isOnce = false
+    this.asyncFactory = asyncFactory
+    this.asyncMeta = undefined
+    this.isAsyncPlaceholder = false
+  }
+
+  // DEPRECATED: alias for componentInstance for backwards compat.
+  /* istanbul ignore next */
+  get child (): Component | void {
+    return this.componentInstance
+  }
+}
+```
+解析：
++ 可以看到，VNode是对真实DOM的一种抽象描述，它的核心定义无非就是几个关键属性、标签名、数据、子节点、键值等，其他属性都是用来扩展VNode的灵活性以及实现一些特殊功能的。
+
++ 由于VNode只是用来映射到真实DOM的渲染，不需要包含操作DOM的方法，因此它是非常轻量和简单的。
+
++ `Virtual DOM`除了它的数据结构定义，映射到真实的DOM实际上要经历VNode的create、diff、patch等过程。在Vue.js中，VNode的create是通过`createElement`方法创建的
+
+---
+
+③ `createElement`的重点流程做了两件事：
++ children的规范化：`Virtual DOM`实际上是一个树状结构，每一个VNode可能会有若干个子节点，这些子节点应该也是VNode类型。
++ VNode的创建：创建VNode实例。如果是string类型，则直接创建一个普通的VNode，如果是已经注册的组件名，则通过createComponent创建一个组件类型的VNode，否则创建一个未知的标签的VNode.
+
+---
+
+④ 至此，`_render`的流程结束了，它的作用就是创建一个树状的虚拟DOM树
+
+---
+
+⑤ `vm._update`：被调用的时机有2个，一个是首次渲染，一个是数据更新。`_update`方法的作用是把VNode渲染成真实的DOM。`_update`其实就是调用`_patch_`方法，将虚拟DOM渲染成真实DOM，内部实现是真实的DOM操作
+
 ---
 
 ### 参考链接
 [人人都能读懂的Vue源码系列](https://segmentfault.com/u/zhenren/articles)
 
-[ustbhuangyi](https://www.kancloud.cn/chenmk/web-knowledges/1224544)
+[ustbhuangyi](https://ustbhuangyi.github.io/vue-analysis/v2/data-driven/new-vue.html)
