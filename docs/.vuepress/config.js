@@ -342,11 +342,6 @@ module.exports = {
                 title: "ref的原理",
                 path: "/vue/原理/ref的原理.html",
               },
-              {
-                title: "vue路由原理",
-                path: "/vue/原理/vue路由原理.html",
-              },
-              
             ]
           },
         ],

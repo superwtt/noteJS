@@ -448,9 +448,9 @@ var vm = new Vue({
 ### Vue中key的原理
 1. 作用：
 
-key值大多数情况下使用在循环语句中，从本质上讲主要有两个作用：
 + 主要用在Vue的虚拟DOM算法，在新旧node对比时辨识VNodes，相当于唯一标识ID
 + Vue会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染，因此使用key值可以提高渲染效率，同时改变某一元素的key值会使该元素重新被渲染
+
 ---
 2. 原理：
 Vue在patch的过程中，会执行patch vnode，patch vnode的过程中会执行updateChildren这个方法，他会去更新两个新旧的子元素。在这个过程中，会调用sameNode方法，sameNode方法就是通过判断两个key是不是相同来决定是否需要重新渲染。
@@ -475,6 +475,15 @@ function sameVnode (a, b) {
   )
 }
 ```
+---
+
+3. 总结
++ key的作用是：
+  + 更新组件时判断两个节点是否相同，相同就复用，不相同就删除旧的节点创建新的节点。
+  + 能够提升diff同级比较的效率
+  + 避免不带key原地复用带来的副作用：比如动画过渡失效等
++ 不带key：
+  + 在简单模板下，不带key，当只有数据变化时，只需要修改DOM文本内容而不是移除/添加节点，这样可以更有效地复用节点、diff速度也会更快，因为带key增删节点上有耗时。
 ---
 
 ### 为什么data、props、methods不能同名？
@@ -512,15 +521,88 @@ components:{
 
 ---
 
+### Vue的响应式原理中，Object.defineProperty()有什么缺陷？
+1. Object.defineProperty无法监控到数组下标的变化，导致通过数组下标添加元素，不能实时响应。
++ 为了解决这个问题，经过Vue内部处理后可以使用以下几种方法来监听数组：
+  + push()
+  + pop()
+  + shift()
+  + unshift()
+  + splice()
+  + sort()
+  + reverse()
+2. Object.defineProperty只能劫持对象的属性，从而需要对每个对象、每个属性进行遍历。如果对象的属性值是对象，还需要进行深度遍历。
+3. Proxy可以劫持整个对象，并返回一个新的对象。不仅仅可以代理对象，还可以代理数组。
 
+---
 
+### Vue是如何对数组方法进行变异的？例如push、pop、slice等方法
+1. 定义：在Vue中，对响应式的处理利用的是Object.defineProperty对数据进行拦截，而这个方法并不能监听到数组内部的变化，包括数组长度的变化、数组截取的变化等。
 
+Vue将被侦听的数组的变异方法进行了包裹，所以它们也将会触发视图的更新。
 
+2. 源码实现：在原型上利用Object.defineProperty重写这些方法
+```js
+const arrayProto = Array.prototype;
+const arrayMethods = Object.create(arrayProto)
+['push','pop','shift','unshift','splice','sort','reverse'].forEach(method=>{
+  const original = arrayProto[method];
+  Object.defineProperty(arrayMethods,methods,{
+    value: function mutaor(...args){
+      return original.apply(this,args);
+    },
+    enumerable: false,
+    writable: true,
+    configurable: true
+  })
+})
 
+```
+---
 
+### Vue的父组件和子组件生命周期钩子执行顺序是什么？
+1. 加载渲染过程：`父beforeCreate` -> `父created` -> `父beforeMount` -> `子beforeCreate` -> `子created` -> `子beforeMount` -> `子mounted` -> `父mounted`
+2. 子组件更新过程：`父beforeUpdate` -> `子beforeUpdate` -> `子updated` -> `父updated`
+3. 父组件更新过程：`父beforeUpdate` -> `子updated`
+4. 销毁过程：`父beforeDestroy` -> `子beforeDestroy` -> `子destroyed` -> `父destroyed`
 
+---
 
+### Vue渲染大量数据时应该怎么优化？
+1. 如果一次性传入大量数据
++ 跟提供数据的沟通
++ 增加加载动画提升用户体验
++ 避免浏览器处理大量的dom
++ 服务端渲染
++ 懒加载
 
+2. 如果并非一次性传入大量数据而是分段加载，但次数特别多
++ 异步渲染组件
++ 使用vue的v-if最多显示一屏，避免出现大量的dom节点
++ 分页
+
+---
+
+### preload和prefetch的区别
+1. 背景：
+在preload和prefetch之前，我们一般根据编码需求通过link或者script标签引入页面渲染和交互所依赖的js和css等，然后这些资源由浏览器决定优先级进行加载、解析、渲染等。
+
+但是有些资源，我们需要某些依赖在进入渲染的主流程之前就希望被加载，但是实际资源加载的状况并不受我们控制，而是根据浏览器内部决定资源的优先级等状况进行加载的。
+
+preload和prefetch的出现为我们提供了可以更加细粒度地控制浏览器加载资源的方法，在我们的资源被使用的时候就不必再去等待网络的开销。
+
+2. 使用
++ preload提前加载：preload是一种预加载方式，通过向浏览器声明一个需要提前加载的资源，当资源真正被使用的时候立即执行无需等待网络的消耗
+`<link rel="preload" href="/path/to/style.css" as="style">`
+
++ prefetch预判加载：告诉浏览器未来可能会使用到的某个资源，浏览器会在空闲时去加载对应的资源，用法和preload一样
+
+3. 总结
+对于那些可能在当前页面使用到的资源可以利用preload，而对一些可能在将来的某些页面被使用的资源可以利用prefetch。从加载优先级上看，preload会提升请求优先级，而prefecth会把资源的优先级放在最低，等浏览器空闲时才会去预加载
+
+---
+
+### 
 
 
 
