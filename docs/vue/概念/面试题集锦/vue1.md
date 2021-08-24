@@ -274,9 +274,10 @@ Vue的一个元素上可以同时存在class和:class
 + `@scroll.passive`：当我们在监听元素滚动事件的时候，会一直触发onscroll事件，在pc端没啥问题，但是在移动端，会让我们的网页变卡，因此当我们使用这个修饰符的时候，相当于给onscroll事件加了一个`.lazy`修饰符
 + `@click.native`：我们经常会写很多组件，有些组件会需要绑定一些事件，但是，像这么绑定事件是不会触发的：
 ```js
-<My-component @click="shout()"></My-component>
+<MyComponent @click="shout()"></MyComponent>
 ```
-必须使用`.native`来修饰这个click事件，可以理解为该修饰符的作用就是把一个Vue组件转化为一个普通的HTML标签
+
++ 必须使用`.native`来修饰这个click事件，可以理解为该修饰符的作用就是把一个Vue组件转化为一个普通的HTML标签
 ---
 3. 鼠标按键修饰符
 + `.left`：左键点击
@@ -306,7 +307,7 @@ func2(){
 // 子组件
 this.$emit('update:myMessage',params)
 ```
-<font style='color:red'>当一个子组件改变了一个 prop 的值时，这个变化也会同步到父组件中所绑定的值</font>
++ <font style='color:red'>当一个子组件改变了一个 prop 的值时，这个变化也会同步到父组件中所绑定的值</font>
 ---
 
 ### Vue中更新组件的方式有哪些

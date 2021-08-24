@@ -48,7 +48,7 @@ module.exports = {
                   {
                     title: "面试题集锦",
                     path: "/react/概念/react相关/面试题集锦/react1.html",
-                    collapsable:true,
+                    collapsable:false,
                     children:[
                       {
                         title: "react1",
@@ -263,12 +263,23 @@ module.exports = {
         collapsable: false,
         children: [
           {
-            title: "路由",
-            path: "/vue/概念/路由.html",
-          },
-          {
-            title: "面试题集锦",
-            path: "/vue/概念/面试题集锦/vue1.html",
+            title: "概念篇",
+            collapsable: true,
+            children:[
+              {
+                title: "路由",
+                path: "/vue/概念/路由.html",
+              },
+              {
+                title: "面试题集锦",
+                children:[
+                  {
+                    title: "vue1",
+                    path: "/vue/概念/面试题集锦/vue1.html",
+                  },
+                ]
+              },
+            ]
           },
           {
             title: "原理",
