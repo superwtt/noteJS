@@ -271,11 +271,19 @@ module.exports = {
                 path: "/vue/概念/路由.html",
               },
               {
+                title: "指令",
+                path: "/vue/概念/指令.html",
+              },
+              {
                 title: "面试题集锦",
                 children:[
                   {
                     title: "vue1",
                     path: "/vue/概念/面试题集锦/vue1.html",
+                  },
+                  {
+                    title: "vue2",
+                    path: "/vue/概念/面试题集锦/vue2.html",
                   },
                 ]
               },
@@ -353,6 +361,15 @@ module.exports = {
                 title: "ref的原理",
                 path: "/vue/原理/ref的原理.html",
               },
+              {
+                title: "mixins",
+                path: "/vue/原理/mixins.html",
+              },
+              {
+                title: "虚拟DOM",
+                path: "/vue/原理/虚拟DOM.html",
+              },
+              
             ]
           },
         ],
